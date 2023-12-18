@@ -5,6 +5,7 @@ import { GeocoderAPI } from "./api/geocoder";
 
 export function App() {
   const [userPosition, setUserPosition] = useState({});
+  const [placeList, setPlaceList] = useState([]);
 
   // GET USER POSITION
   useEffect(() => {
@@ -50,7 +51,9 @@ export function App() {
         </div>
         <div className={s.city_list}>City List here</div>
         <div className={s.map}>
-          <Map />
+          {Object.keys(userPosition).length !== 0 && (
+            <Map userPosition={userPosition} />
+          )}
         </div>
         <div className={s.weather_list}>Weather List here</div>
       </div>

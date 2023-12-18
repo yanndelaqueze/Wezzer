@@ -4,11 +4,11 @@ import { useState, useRef, useEffect } from "react";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
-export function Map() {
+export function Map({ userPosition }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const [lng, setLng] = useState(-70.9);
-  const [lat, setLat] = useState(42.35);
+  const [lng, setLng] = useState(userPosition.lon);
+  const [lat, setLat] = useState(userPosition.lat);
   const [zoom, setZoom] = useState(9);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export function Map() {
 
   return (
     <div>
-      <div ref={mapContainer} className={s.map_container} />
+      {userPosition && <div ref={mapContainer} className={s.map_container} />}
     </div>
   );
 }
