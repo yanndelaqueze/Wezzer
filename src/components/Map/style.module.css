@@ -1,8 +1,9 @@
 .map_container {
-  height: 600px;
+  height: 500px;
+  border-radius: 20px;
 }
 
-.side_bar {
+/* .side_bar {
   background-color: rgb(35 55 75 / 90%);
   color: #fff;
   padding: 6px 12px;
@@ -13,4 +14,4 @@
   left: 0;
   margin: 12px;
   border-radius: 4px;
-}
+} */

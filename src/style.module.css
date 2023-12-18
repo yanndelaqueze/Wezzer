@@ -1,0 +1,21 @@
+.main_container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 25px;
+}
+
+.header {
+  flex: 1;
+}
+
+.city_list {
+  flex: 2;
+}
+
+.map {
+}
+
+.weather_list {
+  flex: 2;
+}

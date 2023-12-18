@@ -20,19 +20,21 @@ export function Map() {
       zoom: zoom,
     });
 
-    map.current.on("move", () => {
-      console.log(map.current.getCenter());
-      setLng(map.current.getCenter().lng.toFixed(4));
-      setLat(map.current.getCenter().lat.toFixed(4));
-      setZoom(map.current.getZoom().toFixed(2));
+    // map.current.on("move", () => {
+    //   console.log(map.current.getCenter());
+    //   setLng(map.current.getCenter().lng.toFixed(4));
+    //   setLat(map.current.getCenter().lat.toFixed(4));
+    //   setZoom(map.current.getZoom().toFixed(2));
+    // });
+
+    map.current.on("click", (e) => {
+      console.log(e.lngLat.lng.toFixed(4));
+      console.log(e.lngLat.lat.toFixed(4));
     });
   });
 
   return (
     <div>
-      <div className={s.side_bar}>
-        Longitude: {lng} | Latitude: {lat} | Zoom: {zoom}
-      </div>
       <div ref={mapContainer} className={s.map_container} />
     </div>
   );
