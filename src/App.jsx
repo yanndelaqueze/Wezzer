@@ -1,20 +1,20 @@
 import s from "./style.module.css";
 import { useState, useEffect } from "react";
-
 import { Map } from "./components/Map/Map";
+import { GeocoderAPI } from "./api/geocoder";
 
 export function App() {
-  const [userPosition, setUserPosition] = useState([]);
+  const [userPosition, setUserPosition] = useState({});
 
   // GET USER POSITION
   useEffect(() => {
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          setUserPosition([
-            position.coords.latitude,
-            position.coords.longitude,
-          ]);
+          setUserPosition({
+            lat: position.coords.latitude,
+            lon: position.coords.longitude,
+          });
         },
         (error) => {
           console.error(error);
@@ -25,7 +25,19 @@ export function App() {
     }
   }, []);
 
-  console.log("user Position:", userPosition);
+  // GET USER POSITION DETAILS
+  async function getUserPositionInfo() {
+    const details = await GeocoderAPI.geocodeWithCoords(userPosition);
+    console.log("user Position:", userPosition);
+    console.log("details:", details.data.features[0]?.place_name);
+    console.log("details:", details.data.features[0]?.text);
+  }
+
+  useEffect(() => {
+    if (userPosition) {
+      getUserPositionInfo();
+    }
+  }, [userPosition]);
 
   return (
     <>
