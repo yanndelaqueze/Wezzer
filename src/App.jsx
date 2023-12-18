@@ -4,7 +4,7 @@ import { Map } from "./components/Map/Map";
 import { GeocoderAPI } from "./api/geocoder";
 
 export function App() {
-  const [userPosition, setUserPosition] = useState({});
+  const [userPosition, setUserPosition] = useState();
   const [placeList, setPlaceList] = useState([]);
 
   // GET USER POSITION
@@ -51,9 +51,8 @@ export function App() {
         </div>
         <div className={s.city_list}>City List here</div>
         <div className={s.map}>
-          {Object.keys(userPosition).length !== 0 && (
-            <Map userPosition={userPosition} />
-          )}
+          {!userPosition && <div className={s.map_loading}>MAP LOADING</div>}
+          {userPosition && <Map userPosition={userPosition} />}
         </div>
         <div className={s.weather_list}>Weather List here</div>
       </div>
