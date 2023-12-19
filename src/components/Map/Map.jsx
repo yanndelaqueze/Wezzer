@@ -20,13 +20,6 @@ export function Map({ userPosition }) {
       zoom: zoom,
     });
 
-    // map.current.on("move", () => {
-    //   console.log(map.current.getCenter());
-    //   setLng(map.current.getCenter().lng.toFixed(4));
-    //   setLat(map.current.getCenter().lat.toFixed(4));
-    //   setZoom(map.current.getZoom().toFixed(2));
-    // });
-
     map.current.on("click", (e) => {
       console.log(e.lngLat.lng.toFixed(4));
       console.log(e.lngLat.lat.toFixed(4));

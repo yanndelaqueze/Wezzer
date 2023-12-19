@@ -1,0 +1,22 @@
+.list_title {
+  margin-top: 25px;
+  margin-bottom: 25px;
+  font-family: Karla;
+  font-weight: 60px;
+  font-size: 30px;
+}
+
+.list:hover {
+  overflow-x: overlay;
+}
+
+.list {
+  display: flex;
+  width: 100vw - 25px;
+  overflow-x: hidden;
+  padding-bottom: 30px;
+}
+
+.city_item {
+  margin-right: 20px;
+}

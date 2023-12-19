@@ -1,7 +1,12 @@
 import s from "./style.module.css";
 import { useState, useEffect } from "react";
+
 import { Map } from "./components/Map/Map";
+import { CityList } from "./components/CityList/CityList";
+import { SearchBar } from "./components/SearchBar/SearchBar";
+
 import { GeocoderAPI } from "./api/geocoder";
+import { ArrowClockwise, Search } from "react-bootstrap-icons";
 
 export function App() {
   const [userPosition, setUserPosition] = useState();
@@ -38,7 +43,7 @@ export function App() {
     if (userPosition) {
       getUserPositionInfo();
     }
-  }, [userPosition]);
+  });
 
   return (
     <>
@@ -46,12 +51,21 @@ export function App() {
         <div className={s.header}>
           <div className="row">
             <div className="col-4">LOGO</div>
-            <div className="col-md-12 col-lg-4">SearchBar here</div>
+            <div className="col-md-12 col-lg-4">
+              <SearchBar />
+            </div>
           </div>
         </div>
-        <div className={s.city_list}>City List here</div>
+        <div className={s.city_list}>
+          <CityList />
+        </div>
         <div className={s.map}>
-          {!userPosition && <div className={s.map_loading}>MAP LOADING</div>}
+          {!userPosition && (
+            <div className={s.map_loading}>
+              <ArrowClockwise />
+              Map Loading
+            </div>
+          )}
           {userPosition && <Map userPosition={userPosition} />}
         </div>
         <div className={s.weather_list}>Weather List here</div>
