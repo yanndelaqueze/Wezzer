@@ -7,6 +7,8 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 export function Map({ userPosition }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
+  const marker = useRef(null);
+
   const [lng, setLng] = useState(userPosition.lon);
   const [lat, setLat] = useState(userPosition.lat);
   const [zoom, setZoom] = useState(9);
@@ -21,10 +23,27 @@ export function Map({ userPosition }) {
     });
 
     map.current.on("click", (e) => {
-      console.log(e.lngLat.lng.toFixed(4));
-      console.log(e.lngLat.lat.toFixed(4));
+      const { lng, lat } = e.lngLat;
+
+      // Remove previous marker if exists
+      if (marker.current) {
+        marker.current.remove();
+      }
+
+      // Create a new marker at the clicked location
+      marker.current = new mapboxgl.Marker()
+        .setLngLat([lng, lat])
+        .addTo(map.current);
+
+      // Display Latitude and Longitude
+      console.log(`Latitude: ${lat.toFixed(4)}, Longitude: ${lng.toFixed(4)}`);
     });
-  });
+
+    // Cleanup function
+    return () => {
+      map.current.remove(); // Remove map instance on unmount
+    };
+  }, [lat, lng, zoom]);
 
   return (
     <div>
