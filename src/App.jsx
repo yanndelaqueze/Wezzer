@@ -8,9 +8,11 @@ import { SearchBar } from "./components/SearchBar/SearchBar";
 import { GeocoderAPI } from "./api/geocoder";
 import { ArrowClockwise, Search } from "react-bootstrap-icons";
 
+import CITIES from "./business/cities";
+
 export function App() {
   const [userPosition, setUserPosition] = useState();
-  const [placeList, setPlaceList] = useState([]);
+  const [placeList, setPlaceList] = useState(CITIES);
 
   // GET USER POSITION
   useEffect(() => {
@@ -33,10 +35,11 @@ export function App() {
 
   // GET USER POSITION DETAILS
   async function getUserPositionInfo() {
-    const details = await GeocoderAPI.geocodeWithCoords(userPosition);
+    const details = await GeocoderAPI.geocodeWithCoords(
+      userPosition.lon,
+      userPosition.lat
+    );
     console.log("user Position:", userPosition);
-    // console.log("details:", details.data.features[0]?.place_name);
-    // console.log("details:", details.data.features[0]?.text);
   }
 
   useEffect(() => {
@@ -57,7 +60,7 @@ export function App() {
           </div>
         </div>
         <div className={s.city_list}>
-          <CityList />
+          <CityList placeList={placeList} />
         </div>
         <div className={s.map}>
           {!userPosition && (

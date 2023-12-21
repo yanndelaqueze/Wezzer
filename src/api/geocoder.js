@@ -3,9 +3,9 @@ import axios from "axios";
 import { MAPBOX_GEOCODING_BASE_URL } from "../config";
 
 export class GeocoderAPI {
-  static async geocodeWithCoords(input) {
+  static async geocodeWithCoords(latitude, longitude) {
     const res = await axios.get(
-      `${MAPBOX_GEOCODING_BASE_URL}${input.lon},${input.lat}.json?types=place&access_token=${process.env.REACT_APP_MAPBOX_API_KEY_PARAM}`
+      `${MAPBOX_GEOCODING_BASE_URL}${longitude},${latitude}.json?types=place&access_token=${process.env.REACT_APP_MAPBOX_API_KEY_PARAM}`
     );
     return res;
   }
