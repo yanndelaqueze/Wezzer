@@ -1,6 +1,7 @@
 import s from "./style.module.css";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { useState, useRef, useEffect } from "react";
+import { OpenWeatherAPI } from "../../api/openweather";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
@@ -14,6 +15,11 @@ export function Map({ userPosition }) {
   const [lat, setLat] = useState(userPosition.lat);
   const [zoom, setZoom] = useState(9);
 
+  async function getWeather(latitude, longitude) {
+    const res = await OpenWeatherAPI.getCurrentWeather(latitude, longitude);
+    return res.data.list[0].weather[0].main;
+  }
+
   useEffect(() => {
     if (map.current) return; // initialize map only once
     map.current = new mapboxgl.Map({
@@ -24,8 +30,11 @@ export function Map({ userPosition }) {
     });
 
     // Create a marker on click
-    map.current.on("click", (e) => {
+    map.current.on("click", async (e) => {
       const { lng, lat } = e.lngLat;
+
+      const weather = await getWeather(lat, lng);
+      console.log(weather);
 
       // Remove previous marker & popup if exist
       if (marker.current) {

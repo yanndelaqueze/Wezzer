@@ -12,3 +12,4 @@ export class OpenWeatherAPI {
 }
 
 //"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API%20key}"
+// https://api.openweathermap.org/data/2.5/forecast?lat=48.8949019&lon=2.4039608&appid=179bb42eff83fba82d4459244574042d

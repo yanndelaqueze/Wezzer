@@ -35,8 +35,8 @@ export function App() {
   async function getUserPositionInfo() {
     const details = await GeocoderAPI.geocodeWithCoords(userPosition);
     console.log("user Position:", userPosition);
-    console.log("details:", details.data.features[0]?.place_name);
-    console.log("details:", details.data.features[0]?.text);
+    // console.log("details:", details.data.features[0]?.place_name);
+    // console.log("details:", details.data.features[0]?.text);
   }
 
   useEffect(() => {
