@@ -1,4 +1,6 @@
 const MAPBOX_GEOCODING_BASE_URL =
   "https://api.mapbox.com/geocoding/v5/mapbox.places/";
 
-export { MAPBOX_GEOCODING_BASE_URL };
+const OPENWEATHER_BASE_URL = "https://api.openweathermap.org/data/2.5/weather?";
+
+export { MAPBOX_GEOCODING_BASE_URL, OPENWEATHER_BASE_URL };

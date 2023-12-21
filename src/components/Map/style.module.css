@@ -3,6 +3,10 @@
   border-radius: 20px;
 }
 
+.popup {
+  color: #333;
+}
+
 /* .side_bar {
   background-color: rgb(35 55 75 / 90%);
   color: #fff;

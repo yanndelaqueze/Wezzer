@@ -8,6 +8,7 @@ export function Map({ userPosition }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const marker = useRef(null);
+  const popup = useRef(null);
 
   const [lng, setLng] = useState(userPosition.lon);
   const [lat, setLat] = useState(userPosition.lat);
@@ -22,12 +23,16 @@ export function Map({ userPosition }) {
       zoom: zoom,
     });
 
+    // Create a marker on click
     map.current.on("click", (e) => {
       const { lng, lat } = e.lngLat;
 
-      // Remove previous marker if exists
+      // Remove previous marker & popup if exist
       if (marker.current) {
         marker.current.remove();
+      }
+      if (popup.current) {
+        popup.current.remove();
       }
 
       // Create a new marker at the clicked location
@@ -35,7 +40,21 @@ export function Map({ userPosition }) {
         .setLngLat([lng, lat])
         .addTo(map.current);
 
-      // Display Latitude and Longitude
+      // Create a Popup to display Latitude and Longitude
+
+      popup.current = new mapboxgl.Popup({
+        offset: 25,
+        className: `${s.popup}`,
+      })
+        .setLngLat([lng, lat])
+        .setHTML(
+          `<div><p>Lat: ${lat.toFixed(4)}</p><p>Lon: ${lng.toFixed(
+            4
+          )}</p></div>`
+        )
+        .addTo(map.current);
+
+      // Console.log Latitude and Longitude
       console.log(`Latitude: ${lat.toFixed(4)}, Longitude: ${lng.toFixed(4)}`);
     });
 
