@@ -12,6 +12,7 @@ export function Map({ userPosition, placeList }) {
   const marker = useRef(null);
   const popup = useRef(null);
   const markers = useRef({});
+  const currentPopup = useRef(null);
 
   const [lng, setLng] = useState(userPosition.lng);
   const [lat, setLat] = useState(userPosition.lat);
@@ -19,7 +20,7 @@ export function Map({ userPosition, placeList }) {
 
   async function getWeather(latitude, longitude) {
     const res = await OpenWeatherAPI.getCurrentWeather(latitude, longitude);
-    return res.data.list[0].weather[0].main;
+    return res.data.list[0].weather[0].main || "N/A";
   }
 
   async function getCity(latitude, longitude) {
@@ -28,7 +29,8 @@ export function Map({ userPosition, placeList }) {
   }
 
   useEffect(() => {
-    if (map.current) return; // initialize map only once
+    // ***** INITIALIZE MAP (only once) *****//
+    if (map.current) return;
     map.current = new mapboxgl.Map({
       container: mapContainer.current,
       style: "mapbox://styles/mapbox/outdoors-v12",
@@ -36,17 +38,14 @@ export function Map({ userPosition, placeList }) {
       zoom: zoom,
     });
 
-    // CREATE A MARKER WITH INFO ON CLICK //
+    // ***** CREATE A MARKER WITH INFO ON CLICK ***** //
     map.current.on("click", async (e) => {
       const { lng, lat } = e.lngLat;
 
       const weather = await getWeather(lat, lng);
-      console.log("weather:", weather);
-
       const city = await getCity(lat, lng);
-      console.log("city:", city);
 
-      // Remove previous marker & popup if exist
+      // Remove previous marker & popup if they exist
       if (marker.current) {
         marker.current.remove();
       }
@@ -60,66 +59,90 @@ export function Map({ userPosition, placeList }) {
         .addTo(map.current);
 
       // Create a Popup to display Latitude and Longitude
-
       popup.current = new mapboxgl.Popup({
         offset: 25,
         className: `${s.popup}`,
       })
         .setLngLat([lng, lat])
         .setHTML(
-          `<div>
+          `
+          <div>
             <p>${city}</p>
             <p>${weather}</p>
-          </div>`
+          </div>
+          `
         )
         .addTo(map.current);
 
-      // Event listener for popup close event
+      // Remove Popup AND Marker when click on close button
       popup.current.on("close", () => {
         if (marker.current) {
-          marker.current.remove(); // Remove the marker when the popup is closed
-          marker.current = null; // Set marker reference to null
+          marker.current.remove();
+          marker.current = null;
         }
       });
     });
 
-    // Add markers and popups for each city in placeList
-    placeList.forEach((city) => {
-      const { name, lat, lng } = city;
+    // ***** ADD MARKERS AND POPUPS FOR ALL CITIES IN PLACE LIST ***** //
+    async function createMarkers() {
+      for (const city of placeList) {
+        const { name, lat, lng } = city;
 
-      // Create a marker for the city
-      const newMarker = new mapboxgl.Marker()
-        .setLngLat([lng, lat])
-        .addTo(map.current);
-      markers.current[name] = newMarker;
+        try {
+          // Get weather information for the city
+          const weather = await getWeather(lat, lng);
 
-      // Create a Popup to display city information
-      const newPopup = new mapboxgl.Popup({
-        offset: 25,
-        className: `${s.popup}`,
-      }).setHTML(`<div><p>${name}</p></div>`);
+          // Create a marker for the city
+          const newMarker = new mapboxgl.Marker()
+            .setLngLat([lng, lat])
+            .addTo(map.current);
+          markers.current[name] = newMarker;
 
-      // Attach the popup to the marker
-      newMarker.setPopup(newPopup);
+          // Create a Popup to display city information with weather
+          const newPopup = new mapboxgl.Popup({
+            offset: 25,
+            className: `${s.popup}`,
+          }).setHTML(`
+          <div>
+            <p>${name}</p>
+            <p>${weather}</p>
+          </div>
+          `);
 
-      // Event listener for marker click to open popup
-      newMarker.getElement().addEventListener("click", (e) => {
-        e.stopPropagation(); // Prevent the click event from propagating to the map
-        newPopup.addTo(map.current);
+          // Attach the popup to the marker
+          newMarker.setPopup(newPopup);
+
+          // Event listener for marker click to open popup
+          newMarker.getElement().addEventListener("click", (e) => {
+            e.stopPropagation(); // Prevent the click event from propagating to the map
+            // Close the currently opened popup (if any)
+            if (currentPopup.current) {
+              currentPopup.current.remove();
+            }
+
+            // Open the popup for the clicked marker
+            newPopup.addTo(map.current);
+            currentPopup.current = newPopup;
+          });
+        } catch (error) {
+          console.error("Error fetching weather:", error);
+        }
+      }
+
+      // Calculate the bounds of all markers
+      const bounds = new mapboxgl.LngLatBounds();
+      Object.values(markers.current).forEach((marker) => {
+        bounds.extend(marker.getLngLat());
       });
-    });
 
-    // Calculate the bounds of all markers
-    const bounds = new mapboxgl.LngLatBounds();
-    Object.values(markers.current).forEach((marker) => {
-      bounds.extend(marker.getLngLat());
-    });
+      // Fit the map to the bounds containing all markers
+      map.current.fitBounds(bounds, {
+        padding: 50, // Adjust the padding as needed to ensure all markers are visible
+        maxZoom: 15, // You can set a maximum zoom level if necessary
+      });
+    }
 
-    // Fit the map to the bounds containing all markers
-    map.current.fitBounds(bounds, {
-      padding: 50, // Adjust the padding as needed to ensure all markers are visible
-      maxZoom: 15, // You can set a maximum zoom level if necessary
-    });
+    createMarkers();
 
     // Cleanup function
     return () => {
