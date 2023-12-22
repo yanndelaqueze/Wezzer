@@ -6,11 +6,12 @@ import { GeocoderAPI } from "../../api/geocoder";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
-export function Map({ userPosition }) {
+export function Map({ userPosition, placeList }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const marker = useRef(null);
   const popup = useRef(null);
+  const markers = useRef({});
 
   const [lng, setLng] = useState(userPosition.lng);
   const [lat, setLat] = useState(userPosition.lat);
@@ -35,7 +36,7 @@ export function Map({ userPosition }) {
       zoom: zoom,
     });
 
-    // Create a marker on click
+    // CREATE A MARKER WITH INFO ON CLICK //
     map.current.on("click", async (e) => {
       const { lng, lat } = e.lngLat;
 
@@ -73,15 +74,48 @@ export function Map({ userPosition }) {
         )
         .addTo(map.current);
 
-      // Console.log Latitude and Longitude
-      console.log(`Latitude: ${lat.toFixed(4)}, Longitude: ${lng.toFixed(4)}`);
+      // Event listener for popup close event
+      popup.current.on("close", () => {
+        if (marker.current) {
+          marker.current.remove(); // Remove the marker when the popup is closed
+          marker.current = null; // Set marker reference to null
+        }
+      });
+    });
+
+    // Add markers and popups for each city in placeList
+    placeList.forEach((city) => {
+      const { name, lat, lng } = city;
+
+      // Create a marker for the city
+      const newMarker = new mapboxgl.Marker()
+        .setLngLat([lng, lat])
+        .addTo(map.current);
+      markers.current[name] = newMarker;
+
+      // Create a Popup to display city information
+      const newPopup = new mapboxgl.Popup({
+        offset: 25,
+        className: `${s.popup}`,
+      }).setHTML(`<div><p>${name}</p></div>`);
+
+      // Attach the popup to the marker
+      newMarker.setPopup(newPopup);
+
+      // Event listener for marker click to open popup
+      newMarker.getElement().addEventListener("click", (e) => {
+        e.stopPropagation(); // Prevent the click event from propagating to the map
+        newPopup.addTo(map.current);
+      });
     });
 
     // Cleanup function
     return () => {
+      Object.values(markers.current).forEach((marker) => marker.remove());
+      markers.current = {};
       map.current.remove(); // Remove map instance on unmount
     };
-  }, [lat, lng, zoom]);
+  }, [lat, lng, zoom, placeList]);
 
   return (
     <div>

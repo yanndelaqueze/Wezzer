@@ -76,7 +76,9 @@ export function App() {
               Map Loading
             </div>
           )}
-          {userPosition && <Map userPosition={userPosition} />}
+          {userPosition && (
+            <Map userPosition={userPosition} placeList={placeList} />
+          )}
         </div>
         <div className={s.weather_list}>Weather List here</div>
       </div>
