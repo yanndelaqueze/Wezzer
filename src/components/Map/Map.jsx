@@ -109,6 +109,18 @@ export function Map({ userPosition, placeList }) {
       });
     });
 
+    // Calculate the bounds of all markers
+    const bounds = new mapboxgl.LngLatBounds();
+    Object.values(markers.current).forEach((marker) => {
+      bounds.extend(marker.getLngLat());
+    });
+
+    // Fit the map to the bounds containing all markers
+    map.current.fitBounds(bounds, {
+      padding: 50, // Adjust the padding as needed to ensure all markers are visible
+      maxZoom: 15, // You can set a maximum zoom level if necessary
+    });
+
     // Cleanup function
     return () => {
       Object.values(markers.current).forEach((marker) => marker.remove());
