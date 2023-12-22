@@ -154,9 +154,7 @@ export function Map({ userPosition, placeList }) {
 
   return (
     <div>
-      {userPosition && (
-        <div ref={mapContainer} style={{ width: "100%", height: "400px" }} />
-      )}
+      {userPosition && <div ref={mapContainer} className={s.map_container} />}
     </div>
   );
 }
