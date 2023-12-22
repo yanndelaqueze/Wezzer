@@ -56,7 +56,7 @@ export function App() {
   // ADD A CITY
 
   function addCity(cityToAdd) {
-    setPlaceList((prevPlaceList) => [...prevPlaceList, cityToAdd]);
+    setPlaceList((prevPlaceList) => [cityToAdd, ...prevPlaceList]);
   }
 
   useEffect(() => {
@@ -101,7 +101,6 @@ export function App() {
             />
           )}
         </div>
-        <div className={s.weather_list}>Weather List here</div>
       </div>
     </>
   );

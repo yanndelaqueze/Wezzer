@@ -1,11 +1,14 @@
 import s from "./style.module.css";
 import { CityListItem } from "../CityListItem/CityListItem";
 import { ArrowClockwise } from "react-bootstrap-icons";
+import { Pin } from "react-bootstrap-icons";
 
 export function CityList({ placeList, userPositionInfo, onClickTrash }) {
   return (
     <>
-      <div className={s.list_title}>YOUR CITIES</div>
+      <div className={s.list_title}>
+        <Pin /> Pinned Cities ({placeList.length})
+      </div>
       <div className={s.list}>
         <span className={s.city_item}>
           {!userPositionInfo && (

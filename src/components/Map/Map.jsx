@@ -3,7 +3,6 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import { useState, useRef, useEffect } from "react";
 import { OpenWeatherAPI } from "../../api/openweather";
 import { GeocoderAPI } from "../../api/geocoder";
-import { Pin } from "react-bootstrap-icons";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
