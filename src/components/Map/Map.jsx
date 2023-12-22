@@ -28,6 +28,23 @@ export function Map({ userPosition, placeList, pinCity }) {
     return res.data.features[0]?.text;
   }
 
+  async function fitMarkersToBounds() {
+    const bounds = new mapboxgl.LngLatBounds();
+
+    // Extend the bounds to include all marker coordinates
+    for (const city of placeList) {
+      bounds.extend([city.lng, city.lat]);
+    }
+
+    // Fit the map to the calculated bounds
+    if (!bounds.isEmpty()) {
+      map.current.fitBounds(bounds, {
+        padding: 50, // Adjust padding as needed
+        maxZoom: 15, // Optionally set the maximum zoom level
+      });
+    }
+  }
+
   useEffect(() => {
     // ***** MAP INITIALIZED (once) ***** //
     if (!map.current) {
@@ -103,10 +120,13 @@ export function Map({ userPosition, placeList, pinCity }) {
   useEffect(() => {
     // Update markers when placeList changes
     if (map.current) {
-      updateMarkers();
+      updateMarkers().then(() => {
+        fitMarkersToBounds();
+      });
     }
   }, [placeList]);
 
+  // ***** CREATE / UPDATE MARKERS FROM PLACELIST ***** //
   async function updateMarkers() {
     // Remove markers associated with deleted cities from the placeList
     for (const cityName in markers.current) {
@@ -116,12 +136,12 @@ export function Map({ userPosition, placeList, pinCity }) {
       }
     }
 
-    // ***** CREATE / UPDATE MARKERS FROM PLACELIST ***** //
     for (const city of placeList) {
       if (!markers.current[city.name]) {
         try {
           // Get weather information for the city
           const weather = await getWeather(lat, lng);
+
           const newMarker = new mapboxgl.Marker()
             .setLngLat([city.lng, city.lat])
             .addTo(map.current);
