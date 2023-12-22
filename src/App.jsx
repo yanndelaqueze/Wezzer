@@ -6,12 +6,13 @@ import { CityList } from "./components/CityList/CityList";
 import { SearchBar } from "./components/SearchBar/SearchBar";
 
 import { GeocoderAPI } from "./api/geocoder";
-import { ArrowClockwise, Search } from "react-bootstrap-icons";
+import { ArrowClockwise } from "react-bootstrap-icons";
 
 import CITIES from "./business/cities";
 
 export function App() {
   const [userPosition, setUserPosition] = useState();
+  const [userPositionInfo, setUserPositionInfo] = useState();
   const [placeList, setPlaceList] = useState(CITIES);
 
   // GET USER POSITION
@@ -21,7 +22,7 @@ export function App() {
         (position) => {
           setUserPosition({
             lat: position.coords.latitude,
-            lon: position.coords.longitude,
+            lng: position.coords.longitude,
           });
         },
         (error) => {
@@ -36,17 +37,23 @@ export function App() {
   // GET USER POSITION DETAILS
   async function getUserPositionInfo() {
     const details = await GeocoderAPI.geocodeWithCoords(
-      userPosition.lon,
-      userPosition.lat
+      userPosition.lat,
+      userPosition.lng
     );
-    console.log("user Position:", userPosition);
+    setUserPositionInfo({
+      name: details.data.features[0]?.text,
+      lat: userPosition.lat,
+      lng: userPosition.lng,
+    });
   }
 
   useEffect(() => {
     if (userPosition) {
       getUserPositionInfo();
     }
-  });
+  }, [userPosition]);
+
+  console.log(userPositionInfo);
 
   return (
     <>
@@ -60,7 +67,7 @@ export function App() {
           </div>
         </div>
         <div className={s.city_list}>
-          <CityList placeList={placeList} />
+          <CityList placeList={placeList} userPositionInfo={userPositionInfo} />
         </div>
         <div className={s.map}>
           {!userPosition && (

@@ -12,7 +12,7 @@ export function Map({ userPosition }) {
   const marker = useRef(null);
   const popup = useRef(null);
 
-  const [lng, setLng] = useState(userPosition.lon);
+  const [lng, setLng] = useState(userPosition.lng);
   const [lat, setLat] = useState(userPosition.lat);
   const [zoom, setZoom] = useState(9);
 
