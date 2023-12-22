@@ -19,6 +19,7 @@ export function App() {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
+  const [currentCity, setCurrentCity] = useState(userPositionInfo);
 
   const suggestionsRef = useRef(null);
 
@@ -103,6 +104,7 @@ export function App() {
     setPlaceList((prevPlaceList) => [cityToAdd, ...prevPlaceList]);
     setShowSuggestions(false);
     setInput("");
+    setClearInput(true);
   }
 
   useEffect(() => {
@@ -111,8 +113,7 @@ export function App() {
     }
   }, [userPosition]);
 
-  console.log(input);
-  console.log(suggestions);
+  console.log(userPositionInfo);
 
   return (
     <>
