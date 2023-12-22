@@ -1,0 +1,10 @@
+.list {
+  background-color: white;
+  color: #1980d8;
+  padding-left: 20px;
+  padding-top: 10px;
+  padding-right: 10px;
+  border-radius: 10px;
+  margin-top: 10px;
+  position: absolute;
+}

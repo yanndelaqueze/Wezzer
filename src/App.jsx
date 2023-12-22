@@ -92,6 +92,19 @@ export function App() {
     }
   }
 
+  // ADD A CITY FROM SEARCH
+  function addCityFromSearch(cityToAddFromSearch) {
+    console.log(cityToAddFromSearch);
+    const cityToAdd = {
+      name: cityToAddFromSearch.text,
+      lat: cityToAddFromSearch.geometry.coordinates[1],
+      lng: cityToAddFromSearch.geometry.coordinates[0],
+    };
+    setPlaceList((prevPlaceList) => [cityToAdd, ...prevPlaceList]);
+    setShowSuggestions(false);
+    setInput("");
+  }
+
   useEffect(() => {
     if (userPosition) {
       getUserPositionInfo();
@@ -113,7 +126,7 @@ export function App() {
                 {showSuggestions && input.length > 1 && (
                   <SuggestionList
                     suggestionList={suggestions}
-                    onClickItem={() => {}}
+                    onClickItem={addCityFromSearch}
                   />
                 )}
               </div>
