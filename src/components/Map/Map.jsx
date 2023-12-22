@@ -3,10 +3,11 @@ import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-load
 import { useState, useRef, useEffect } from "react";
 import { OpenWeatherAPI } from "../../api/openweather";
 import { GeocoderAPI } from "../../api/geocoder";
+import { Pin } from "react-bootstrap-icons";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
-export function Map({ userPosition, placeList }) {
+export function Map({ userPosition, placeList, pinCity }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markers = useRef({});
@@ -69,10 +70,18 @@ export function Map({ userPosition, placeList }) {
           <div>
             <p>${city}</p>
             <p>${weather}</p>
+            <div><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin" viewBox="0 0 16 16" onClick="clickPin()">
+            <path d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A5.921 5.921 0 0 1 5 6.708V2.277a2.77 2.77 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354zm1.58 1.408-.002-.001.002.001m-.002-.001.002.001A.5.5 0 0 1 6 2v5a.5.5 0 0 1-.276.447h-.002l-.012.007-.054.03a4.922 4.922 0 0 0-.827.58c-.318.278-.585.596-.725.936h7.792c-.14-.34-.407-.658-.725-.936a4.915 4.915 0 0 0-.881-.61l-.012-.006h-.002A.5.5 0 0 1 10 7V2a.5.5 0 0 1 .295-.458 1.775 1.775 0 0 0 .351-.271c.08-.08.155-.17.214-.271H5.14c.06.1.133.191.214.271a1.78 1.78 0 0 0 .37.282"/>
+          </svg></div>
           </div>
           `
           )
           .addTo(map.current);
+
+        window.clickPin = function () {
+          // prop function named pinCity
+          pinCity({ name: city, lat: lat, lng: lng });
+        };
 
         // Remove Popup AND Marker when click on close button
         popup.current.on("close", () => {

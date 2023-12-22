@@ -48,11 +48,15 @@ export function App() {
   }
 
   // DELETE A CITY
-
   function deleteCity(cityNameToRemove) {
-    console.log("click trash", cityNameToRemove);
     const update = placeList.filter((city) => city.name !== cityNameToRemove);
     setPlaceList(update);
+  }
+
+  // ADD A CITY
+
+  function addCity(cityToAdd) {
+    setPlaceList((prevPlaceList) => [...prevPlaceList, cityToAdd]);
   }
 
   useEffect(() => {
@@ -90,7 +94,11 @@ export function App() {
             </div>
           )}
           {userPosition && (
-            <Map userPosition={userPosition} placeList={placeList} />
+            <Map
+              userPosition={userPosition}
+              placeList={placeList}
+              pinCity={addCity}
+            />
           )}
         </div>
         <div className={s.weather_list}>Weather List here</div>
