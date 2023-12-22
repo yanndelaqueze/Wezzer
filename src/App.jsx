@@ -1,9 +1,10 @@
 import s from "./style.module.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 import { Map } from "./components/Map/Map";
 import { CityList } from "./components/CityList/CityList";
 import { SearchBar } from "./components/SearchBar/SearchBar";
+import { SuggestionList } from "./components/SuggestionList/SuggestionList";
 
 import { GeocoderAPI } from "./api/geocoder";
 import { ArrowClockwise } from "react-bootstrap-icons";
@@ -14,6 +15,29 @@ export function App() {
   const [userPosition, setUserPosition] = useState();
   const [userPositionInfo, setUserPositionInfo] = useState();
   const [placeList, setPlaceList] = useState(CITIES);
+  const [clearInput, setClearInput] = useState(false);
+  const [input, setInput] = useState("");
+  const [suggestions, setSuggestions] = useState([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
+  const suggestionsRef = useRef(null);
+
+  // Hide Suggestions when clicked outside
+  function handleClickOutside(event) {
+    if (
+      suggestionsRef.current &&
+      !suggestionsRef.current.contains(event.target)
+    ) {
+      setShowSuggestions(false);
+    }
+  }
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
+  }, []);
 
   // GET USER POSITION
   useEffect(() => {
@@ -54,9 +78,18 @@ export function App() {
   }
 
   // ADD A CITY
-
   function addCity(cityToAdd) {
     setPlaceList((prevPlaceList) => [cityToAdd, ...prevPlaceList]);
+  }
+
+  // AUTOCOMPLETE
+  async function getSuggestions(input) {
+    const suggestions = await GeocoderAPI.geocodeWithInput(input);
+    if (suggestions && suggestions.length > 0) {
+      setInput(input);
+      setSuggestions(suggestions);
+      setShowSuggestions(true);
+    }
   }
 
   useEffect(() => {
@@ -65,8 +98,8 @@ export function App() {
     }
   }, [userPosition]);
 
-  console.log(userPositionInfo);
-  console.log("placeList", placeList);
+  console.log(input);
+  console.log(suggestions);
 
   return (
     <>
@@ -75,7 +108,15 @@ export function App() {
           <div className="row">
             <div className="col-4">LOGO</div>
             <div className="col-md-12 col-lg-4">
-              <SearchBar />
+              <SearchBar onInput={getSuggestions} clearInput={clearInput} />
+              <div ref={suggestionsRef}>
+                {showSuggestions && input.length > 1 && (
+                  <SuggestionList
+                    suggestionList={suggestions}
+                    onClickItem={() => {}}
+                  />
+                )}
+              </div>
             </div>
           </div>
         </div>
