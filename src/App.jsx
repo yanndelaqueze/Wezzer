@@ -47,6 +47,14 @@ export function App() {
     });
   }
 
+  // DELETE A CITY
+
+  function deleteCity(cityNameToRemove) {
+    console.log("click trash", cityNameToRemove);
+    const update = placeList.filter((city) => city.name !== cityNameToRemove);
+    setPlaceList(update);
+  }
+
   useEffect(() => {
     if (userPosition) {
       getUserPositionInfo();
@@ -54,6 +62,7 @@ export function App() {
   }, [userPosition]);
 
   console.log(userPositionInfo);
+  console.log("placeList", placeList);
 
   return (
     <>
@@ -67,7 +76,11 @@ export function App() {
           </div>
         </div>
         <div className={s.city_list}>
-          <CityList placeList={placeList} userPositionInfo={userPositionInfo} />
+          <CityList
+            placeList={placeList}
+            userPositionInfo={userPositionInfo}
+            onClickTrash={deleteCity}
+          />
         </div>
         <div className={s.map}>
           {!userPosition && (

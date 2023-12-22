@@ -1,11 +1,12 @@
 import s from "./style.module.css";
+import { Trash } from "react-bootstrap-icons";
 
-export function CityListItem({ city }) {
+export function CityListItem({ city, onClick }) {
   return (
     <div>
       <div className={s.container}>
         <div>{city.name}</div>
-        <div>Weather</div>
+        <Trash onClick={() => onClick(city.name)} />
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import s from "./style.module.css";
 import { CityListItem } from "../CityListItem/CityListItem";
 import { ArrowClockwise } from "react-bootstrap-icons";
 
-export function CityList({ placeList, userPositionInfo }) {
+export function CityList({ placeList, userPositionInfo, onClickTrash }) {
   return (
     <>
       <div className={s.list_title}>YOUR CITIES</div>
@@ -19,7 +19,13 @@ export function CityList({ placeList, userPositionInfo }) {
         {placeList.map((city, i) => {
           return (
             <span className={s.city_item}>
-              {city && <CityListItem key={city + i} city={city} />}
+              {city && (
+                <CityListItem
+                  key={city + i}
+                  city={city}
+                  onClick={onClickTrash}
+                />
+              )}
             </span>
           );
         })}
