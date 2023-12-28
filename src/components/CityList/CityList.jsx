@@ -7,10 +7,10 @@ export function CityList({ placeList, userPositionInfo, onClickTrash }) {
   return (
     <>
       <div className={s.list_title}>
-        <Pin /> Pinned Cities ({placeList.length})
+        <Pin /> My places ({placeList.length})
       </div>
-      <div className={s.list}>
-        <span className={s.city_item}>
+      <div className="row justify-content-align-left">
+        <span className={`col-2 ${s.city_item}`}>
           {!userPositionInfo && (
             <div className={s.position_loading}>
               <ArrowClockwise />
@@ -21,7 +21,7 @@ export function CityList({ placeList, userPositionInfo, onClickTrash }) {
         </span>
         {placeList.map((city, i) => {
           return (
-            <span className={s.city_item}>
+            <span className={`col-2 ${s.city_item}`}>
               {city && (
                 <CityListItem
                   key={city + i}
