@@ -75,8 +75,11 @@ export function App() {
 
   // DELETE A CITY
   function deleteCity(cityNameToRemove) {
-    const update = placeList.filter((city) => city.name !== cityNameToRemove);
-    setPlaceList(update);
+    const updatedList = placeList.filter(
+      (city) => city.name !== cityNameToRemove
+    );
+    setPlaceList(updatedList);
+    setSelectedCity(userPositionInfo);
   }
 
   // ADD A CITY
@@ -119,7 +122,7 @@ export function App() {
     if (userPositionInfo) {
       setSelectedCity(userPositionInfo);
     }
-  }, [userPositionInfo]);
+  }, [userPositionInfo, placeList]);
 
   console.log("selectedCity :", selectedCity);
 
