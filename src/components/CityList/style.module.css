@@ -3,7 +3,7 @@
   margin-bottom: 25px;
   font-family: Karla;
   font-weight: 60px;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .list:hover {
@@ -11,14 +11,23 @@
 }
 
 .list {
-  /* display: flex; */
+  display: flex;
   width: 100vw - 25px;
   overflow-x: hidden;
-  padding-bottom: 20px;
+  padding-bottom: 30px;
 }
 
 .city_item {
   margin-right: 20px;
+  position: relative;
+  padding-top: 25px;
+}
+
+.your_position {
+  position: absolute;
+  top: -5px;
+  left: 33px;
+  font-style: italic;
 }
 
 .position_loading {
@@ -27,7 +36,7 @@
   cursor: pointer;
   width: 120px;
   height: 120px;
-  border-radius: 20px;
+  border-radius: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;

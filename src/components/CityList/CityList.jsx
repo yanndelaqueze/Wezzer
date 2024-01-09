@@ -1,16 +1,20 @@
 import s from "./style.module.css";
 import { CityListItem } from "../CityListItem/CityListItem";
-import { ArrowClockwise } from "react-bootstrap-icons";
+import { ArrowClockwise, Geo } from "react-bootstrap-icons";
 import { Pin } from "react-bootstrap-icons";
 
 export function CityList({ placeList, userPositionInfo, onClickTrash }) {
   return (
     <>
       <div className={s.list_title}>
-        <Pin /> My places ({placeList.length})
+        <Pin /> Pinned ({placeList.length})
       </div>
-      <div className="row justify-content-align-left">
-        <span className={`col-2 ${s.city_item}`}>
+      <div className={s.list}>
+        {/* DISPLAY USER POSITION */}
+        <span className={s.city_item}>
+          <span className={s.your_position}>
+            <Geo /> live
+          </span>
           {!userPositionInfo && (
             <div className={s.position_loading}>
               <ArrowClockwise />
@@ -19,9 +23,10 @@ export function CityList({ placeList, userPositionInfo, onClickTrash }) {
           )}
           {userPositionInfo && <CityListItem city={userPositionInfo} />}
         </span>
+        {/* DISPLAY OTHER CITIES FROM placeList */}
         {placeList.map((city, i) => {
           return (
-            <span className={`col-2 ${s.city_item}`}>
+            <span className={s.city_item}>
               {city && (
                 <CityListItem
                   key={city + i}

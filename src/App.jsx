@@ -134,7 +134,13 @@ export function App() {
             </div>
           </div>
         </div>
-
+        <div className={s.city_list}>
+          <CityList
+            placeList={placeList}
+            userPositionInfo={userPositionInfo}
+            onClickTrash={deleteCity}
+          />
+        </div>
         <div className={s.map}>
           {!userPosition && (
             <div className={s.map_loading}>
@@ -149,13 +155,6 @@ export function App() {
               pinCity={addCity}
             />
           )}
-        </div>
-        <div className={s.city_list}>
-          <CityList
-            placeList={placeList}
-            userPositionInfo={userPositionInfo}
-            onClickTrash={deleteCity}
-          />
         </div>
       </div>
     </>
