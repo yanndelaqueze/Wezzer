@@ -17,6 +17,8 @@ export function ForecastListItem({ fcst }) {
       <div className={s.container}>
         <div>{finalDateFormat}</div>
         <div>{fcst.weather[0].main}</div>
+        <div>({fcst.weather[0].description})</div>
+        <div>({Math.round(fcst.main.temp)}°C)</div>
       </div>
     </>
   );

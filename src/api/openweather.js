@@ -5,7 +5,7 @@ import { OPENWEATHER_BASE_URL } from "../config";
 export class OpenWeatherAPI {
   static async getWeather(lat, lon) {
     const res = await axios.get(
-      `${OPENWEATHER_BASE_URL}lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY_PARAM}`
+      `${OPENWEATHER_BASE_URL}lat=${lat}&lon=${lon}&appid=${process.env.REACT_APP_OPENWEATHER_API_KEY_PARAM}&units=metric`
     );
     return res;
   }

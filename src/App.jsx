@@ -82,6 +82,7 @@ export function App() {
   // ADD A CITY
   function addCity(cityToAdd) {
     setPlaceList((prevPlaceList) => [cityToAdd, ...prevPlaceList]);
+    setSelectedCity(cityToAdd);
   }
 
   // AUTOCOMPLETE
