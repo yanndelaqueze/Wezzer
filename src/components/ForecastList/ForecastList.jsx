@@ -21,9 +21,23 @@ export function ForecastList({ selectedCity }) {
 
   return (
     <div>
-      <span>
-        <ForecastListItem />
-      </span>
+      {selectedCity && (
+        <div className={s.list_title}>
+          Weather Forecast (5 days) - {selectedCity.name} :
+        </div>
+      )}
+
+      <div className={s.list}>
+        {/* DISPLAY FORECAST LIST ITEMS */}
+        {forecastList &&
+          forecastList.map((fcst, i) => {
+            return (
+              <span className={s.forecast_item}>
+                {fcst && <ForecastListItem key={fcst + i} fcst={fcst} />}
+              </span>
+            );
+          })}
+      </div>
     </div>
   );
 }

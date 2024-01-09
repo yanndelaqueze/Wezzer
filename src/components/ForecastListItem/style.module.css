@@ -1,0 +1,14 @@
+.container {
+  background-color: white;
+  color: #1980d8;
+  cursor: pointer;
+  width: 150px;
+  height: 120px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10px;
+}
