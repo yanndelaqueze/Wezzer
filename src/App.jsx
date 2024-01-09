@@ -19,7 +19,7 @@ export function App() {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
-  const [currentCity, setCurrentCity] = useState(userPositionInfo);
+  const [selectedCity, setSelectedCity] = useState(userPositionInfo);
 
   const suggestionsRef = useRef(null);
 
@@ -113,7 +113,13 @@ export function App() {
     }
   }, [userPosition]);
 
-  console.log(userPositionInfo);
+  useEffect(() => {
+    if (userPositionInfo) {
+      setSelectedCity(userPositionInfo);
+    }
+  }, [userPositionInfo]);
+
+  console.log("selectedCity :", selectedCity);
 
   return (
     <>
@@ -136,9 +142,13 @@ export function App() {
         </div>
         <div className={s.city_list}>
           <CityList
+            selectedCity={selectedCity}
             placeList={placeList}
             userPositionInfo={userPositionInfo}
             onClickTrash={deleteCity}
+            onClickCity={(city) => {
+              setSelectedCity(city);
+            }}
           />
         </div>
         <div className={s.map}>
@@ -153,6 +163,7 @@ export function App() {
               userPosition={userPosition}
               placeList={placeList}
               pinCity={addCity}
+              selectedCity={selectedCity}
             />
           )}
         </div>

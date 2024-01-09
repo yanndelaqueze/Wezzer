@@ -3,7 +3,13 @@ import { CityListItem } from "../CityListItem/CityListItem";
 import { ArrowClockwise, Geo } from "react-bootstrap-icons";
 import { Pin } from "react-bootstrap-icons";
 
-export function CityList({ placeList, userPositionInfo, onClickTrash }) {
+export function CityList({
+  selectedCity,
+  placeList,
+  userPositionInfo,
+  onClickTrash,
+  onClickCity,
+}) {
   return (
     <>
       <div className={s.list_title}>
@@ -21,7 +27,13 @@ export function CityList({ placeList, userPositionInfo, onClickTrash }) {
               Loading
             </div>
           )}
-          {userPositionInfo && <CityListItem city={userPositionInfo} />}
+          {userPositionInfo && (
+            <CityListItem
+              city={userPositionInfo}
+              selectedCity={selectedCity}
+              onClickCity={onClickCity}
+            />
+          )}
         </span>
         {/* DISPLAY OTHER CITIES FROM placeList */}
         {placeList.map((city, i) => {
@@ -31,7 +43,9 @@ export function CityList({ placeList, userPositionInfo, onClickTrash }) {
                 <CityListItem
                   key={city + i}
                   city={city}
-                  onClick={onClickTrash}
+                  selectedCity={selectedCity}
+                  onClickTrash={onClickTrash}
+                  onClickCity={onClickCity}
                 />
               )}
             </span>

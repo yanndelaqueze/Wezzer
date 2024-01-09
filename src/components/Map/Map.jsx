@@ -6,7 +6,7 @@ import { GeocoderAPI } from "../../api/geocoder";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
-export function Map({ userPosition, placeList, pinCity }) {
+export function Map({ userPosition, placeList, pinCity, selectedCity }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markers = useRef({});
@@ -23,7 +23,7 @@ export function Map({ userPosition, placeList, pinCity }) {
     return res.data.list[0].weather[0].main || "N/A";
   }
 
-  async function getCity(latitude, longitude) {
+  async function getCityName(latitude, longitude) {
     const res = await GeocoderAPI.geocodeWithCoords(latitude, longitude);
     return res.data.features[0]?.text;
   }
@@ -60,7 +60,7 @@ export function Map({ userPosition, placeList, pinCity }) {
         const { lng, lat } = e.lngLat;
 
         const weather = await getWeather(lat, lng);
-        const city = await getCity(lat, lng);
+        const city = await getCityName(lat, lng);
 
         // Remove previous marker & popup if they exist
         if (marker.current) {
