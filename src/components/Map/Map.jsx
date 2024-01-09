@@ -18,8 +18,8 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
   const [lat, setLat] = useState(userPosition.lat);
   const [zoom, setZoom] = useState(9);
 
-  async function getWeather(latitude, longitude) {
-    const res = await OpenWeatherAPI.getCurrentWeather(latitude, longitude);
+  async function getCurrentWeather(latitude, longitude) {
+    const res = await OpenWeatherAPI.getWeather(latitude, longitude);
     return res.data.list[0].weather[0].main || "N/A";
   }
 
@@ -59,7 +59,7 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
       map.current.on("click", async (e) => {
         const { lng, lat } = e.lngLat;
 
-        const weather = await getWeather(lat, lng);
+        const weather = await getCurrentWeather(lat, lng);
         const city = await getCityName(lat, lng);
 
         // Remove previous marker & popup if they exist
@@ -140,7 +140,7 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
       if (!markers.current[city.name]) {
         try {
           // Get weather information for the city
-          const weather = await getWeather(lat, lng);
+          const weather = await getCurrentWeather(lat, lng);
 
           const newMarker = new mapboxgl.Marker()
             .setLngLat([city.lng, city.lat])

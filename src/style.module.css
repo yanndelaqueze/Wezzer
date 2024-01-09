@@ -13,6 +13,10 @@
   flex: 2;
 }
 
+.forecast_list {
+  flex: 2;
+}
+
 .map_loading {
   height: 500px;
   display: flex;

@@ -5,6 +5,7 @@ import { Map } from "./components/Map/Map";
 import { CityList } from "./components/CityList/CityList";
 import { SearchBar } from "./components/SearchBar/SearchBar";
 import { SuggestionList } from "./components/SuggestionList/SuggestionList";
+import { ForecastList } from "./components/ForecastList/ForecastList";
 
 import { GeocoderAPI } from "./api/geocoder";
 import { ArrowClockwise } from "react-bootstrap-icons";
@@ -150,6 +151,9 @@ export function App() {
               setSelectedCity(city);
             }}
           />
+        </div>
+        <div className={s.forecast_list}>
+          <ForecastList selectedCity={selectedCity} />
         </div>
         <div className={s.map}>
           {!userPosition && (
