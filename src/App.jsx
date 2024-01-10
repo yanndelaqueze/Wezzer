@@ -124,8 +124,6 @@ export function App() {
     }
   }, [userPositionInfo, placeList]);
 
-  console.log("selectedCity :", selectedCity);
-
   return (
     <>
       <div className={s.main_container}>

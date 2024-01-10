@@ -7,6 +7,10 @@
   color: #333;
 }
 
+.city_marker_name {
+  color: black;
+}
+
 /* .side_bar {
   background-color: rgb(35 55 75 / 90%);
   color: #fff;

@@ -17,8 +17,6 @@ export function ForecastList({ selectedCity }) {
     }
   }, [selectedCity]);
 
-  console.log("fcst list :", forecastList);
-
   return (
     <div>
       {selectedCity && (
