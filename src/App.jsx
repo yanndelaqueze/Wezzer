@@ -112,6 +112,12 @@ export function App() {
     setClearInput(true);
   }
 
+  // CHANGE SELECTED CITY BY CLICKING ON MAP
+  function onClickMarker(city) {
+    console.log("Clicked marker for city:", city);
+    setSelectedCity(city);
+  }
+
   useEffect(() => {
     if (userPosition) {
       getUserPositionInfo();
@@ -170,6 +176,7 @@ export function App() {
               placeList={placeList}
               pinCity={addCity}
               selectedCity={selectedCity}
+              onClickMarker={onClickMarker}
             />
           )}
         </div>

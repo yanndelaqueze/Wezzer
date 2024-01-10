@@ -7,7 +7,13 @@ import { OPENWEATHER_ICONS_URL } from "../../config";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
-export function Map({ userPosition, placeList, pinCity, selectedCity }) {
+export function Map({
+  userPosition,
+  placeList,
+  pinCity,
+  selectedCity,
+  onClickMarker,
+}) {
   const mapContainer = useRef(null);
   const map = useRef(null);
   const markers = useRef({});
@@ -209,13 +215,14 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
           // Attach the popup to the marker
           newMarker.setPopup(newPopup);
 
-          // Event listener for marker click to open popup
+          // Event listener for marker click to open popup and select City
           newMarker.getElement().addEventListener("click", (e) => {
             e.stopPropagation(); // Prevent the click event from propagating to the map
             // Close the currently opened popup (if any)
             if (currentPopup.current) {
               currentPopup.current.remove();
             }
+            onClickMarker(city);
 
             // Open the popup for the clicked marker
             newPopup.addTo(map.current);
