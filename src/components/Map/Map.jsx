@@ -51,7 +51,7 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
     if (!map.current) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
-        style: "mapbox://styles/mapbox/outdoors-v12",
+        style: "mapbox://styles/mapbox/light-v11",
         center: [lng, lat],
         zoom: zoom,
       });

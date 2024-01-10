@@ -30,6 +30,7 @@
   text-align: center;
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* .side_bar {
