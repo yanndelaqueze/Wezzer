@@ -5,11 +5,12 @@
 
 .popup {
   color: #333;
-  width: 50px;
+  width: 100px;
   height: 50px;
 }
 
 .city_marker {
+  cursor: pointer;
   width: 50px;
   height: 40px;
   /* position: relative; */
