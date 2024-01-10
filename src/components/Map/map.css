@@ -5,6 +5,8 @@
 
 .popup {
   color: #333;
+  width: 50px;
+  height: 50px;
 }
 
 .city_marker {
@@ -31,6 +33,27 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.city_marker_name_selected {
+  position: absolute;
+  bottom: 35px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: black;
+  z-index: -1;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  background-color: white;
+  border-radius: 5px;
+  padding: 5px;
+  width: 60px;
+  height: 30px;
+  text-align: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border: solid;
 }
 
 /* .side_bar {

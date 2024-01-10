@@ -131,31 +131,53 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
   }, []);
 
   useEffect(() => {
-    // Update markers when placeList changes
-    if (map.current) {
-      updateMarkers().then(() => {
-        fitMarkersToBounds();
-      });
+    console.log("useEffectTriggered");
+    console.log(selectedCity);
+    // Update markers when selectedCity changes
+    if (map.current && selectedCity) {
+      const isPlaceListChange = placeList.some(
+        (city) => city.name === selectedCity.name
+      );
+      if (!isPlaceListChange) {
+        console.log("placeList changed");
+        updateMarkers().then(() => {
+          fitMarkersToBounds();
+        });
+      } else {
+        console.log("placeList did not change");
+        updateMarkers().then(() => {
+          fitMarkersToBounds();
+        });
+      }
     }
-  }, [placeList]);
+  }, [placeList, selectedCity]);
 
   // ***** CREATE / UPDATE MARKERS FROM PLACELIST ***** //
   async function updateMarkers() {
-    // Remove markers associated with deleted cities from the placeList
-    for (const cityName in markers.current) {
-      if (!placeList.some((city) => city.name === cityName)) {
-        markers.current[cityName].remove();
-        delete markers.current[cityName];
-      }
+    console.log("selected city is:", selectedCity.name);
+
+    // Remove all existing markers
+    for (const markerName in markers.current) {
+      markers.current[markerName].remove();
     }
+    markers.current = {};
+
+    // Create all  markers
 
     for (const city of placeList) {
       if (!markers.current[city.name]) {
         try {
           // Get weather information for the city
           const weather = await getWeatherForecast(city.lat, city.lng);
-          console.log(weather);
           const icon = `${OPENWEATHER_ICONS_URL}${weather.list[0].weather[0].icon}.png`;
+
+          // Check if Selected
+          let selectedClass = "";
+          console.log("City name:", city.name);
+          console.log("Selected city name:", selectedCity?.name);
+          selectedCity && selectedCity.name === city.name
+            ? (selectedClass = "city_marker_name_selected")
+            : (selectedClass = "city_marker_name");
 
           // Create a DOM element for the custom marker with weather icon
           const cityMarker = document.createElement("div");
@@ -164,7 +186,7 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
 
           // Add City Name to cityMarker
           const text = document.createElement("div");
-          text.className = "city_marker_name";
+          text.className = selectedClass;
           text.textContent = `${city.name}`;
           cityMarker.appendChild(text);
 
