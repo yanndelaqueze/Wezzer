@@ -127,7 +127,6 @@ export function App() {
 
   // ADD A CITY FROM SEARCH
   function addCityFromSearch(cityToAddFromSearch) {
-    console.log(cityToAddFromSearch);
     const cityToAdd = {
       name: cityToAddFromSearch.text,
       lat: cityToAddFromSearch.geometry.coordinates[1],
@@ -141,7 +140,6 @@ export function App() {
 
   // CHANGE SELECTED CITY BY CLICKING ON MAP
   function onClickMarker(city) {
-    console.log("Clicked marker for city:", city);
     setSelectedCity(city);
   }
 
@@ -156,8 +154,6 @@ export function App() {
       setSelectedCity(userPositionInfo);
     }
   }, [userPositionInfo, placeList]);
-
-  console.log("timeStamp:", selectedTimeStamp);
 
   return (
     <>

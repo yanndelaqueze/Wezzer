@@ -75,7 +75,6 @@ export function Map({
   useEffect(() => {
     // ***** CREATE A MARKER WITH INFO ON CLICK ***** //
     map.current.on("click", async (e) => {
-      console.log(selectedTimeStamp);
       const { lng, lat } = e.lngLat;
 
       const weather = await getWeatherForecast(lat, lng);
