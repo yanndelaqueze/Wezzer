@@ -163,7 +163,7 @@ export function App() {
     <>
       <div className={s.main_container}>
         <div className={s.header}>
-          <div className="row">
+          <div className="row align-items-center">
             <div className="col-4">
               <Logo title="Wezzer" subtitle="Sunny or not ?" image={logo} />
             </div>
