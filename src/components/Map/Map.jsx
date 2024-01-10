@@ -1,4 +1,4 @@
-import s from "./style.module.css";
+import "./map.css";
 import mapboxgl from "!mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
 import { useState, useRef, useEffect } from "react";
 import { OpenWeatherAPI } from "../../api/openweather";
@@ -74,10 +74,8 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
 
         // Create a DOM element for the custom marker with weather icon
         const cityMarker = document.createElement("div");
-        cityMarker.className = "custom-marker";
+        cityMarker.className = "city_marker";
         cityMarker.style.backgroundImage = `url(${icon})`;
-        cityMarker.style.width = "50px";
-        cityMarker.style.height = "40px";
 
         // Add City Name to cityMarker
         const text = document.createElement("div");
@@ -93,7 +91,7 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
         // Create a Popup to display Latitude and Longitude
         popup.current = new mapboxgl.Popup({
           offset: 25,
-          className: `${s.popup}`,
+          className: "popup",
         })
           .setLngLat([lng, lat])
           .setHTML(
@@ -161,10 +159,8 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
 
           // Create a DOM element for the custom marker with weather icon
           const cityMarker = document.createElement("div");
-          cityMarker.className = "custom-marker";
+          cityMarker.className = "city_marker";
           cityMarker.style.backgroundImage = `url(${icon})`;
-          cityMarker.style.width = "50px";
-          cityMarker.style.height = "40px";
 
           // Add City Name to cityMarker
           const text = document.createElement("div");
@@ -180,7 +176,7 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
           // Create a Popup to display city information with weather
           const newPopup = new mapboxgl.Popup({
             offset: 25,
-            className: `${s.popup}`,
+            className: "popup",
           }).setHTML(`
           <div>
             <p>${city.name}</p>
@@ -212,7 +208,7 @@ export function Map({ userPosition, placeList, pinCity, selectedCity }) {
 
   return (
     <div>
-      {userPosition && <div ref={mapContainer} className={s.map_container} />}
+      {userPosition && <div ref={mapContainer} className="map_container" />}
     </div>
   );
 }
