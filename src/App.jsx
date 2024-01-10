@@ -213,6 +213,7 @@ export function App() {
               placeList={placeList}
               pinCity={addCity}
               selectedCity={selectedCity}
+              selectedTimeStamp={selectedTimeStamp}
               onClickMarker={onClickMarker}
             />
           )}

@@ -12,6 +12,7 @@ export function Map({
   placeList,
   pinCity,
   selectedCity,
+  selectedTimeStamp,
   onClickMarker,
 }) {
   const mapContainer = useRef(null);
