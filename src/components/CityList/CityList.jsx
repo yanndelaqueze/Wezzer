@@ -27,7 +27,7 @@ export function CityList({
   return (
     <>
       <div className={s.list_title}>
-        <Pin /> Pinned ({placeList.length})
+        <Pin /> Pinned ({placeList?.length})
       </div>
       <div className={s.list}>
         {/* DISPLAY USER POSITION */}

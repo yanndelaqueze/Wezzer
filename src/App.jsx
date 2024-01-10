@@ -18,7 +18,7 @@ import logo from "./assets/images/logo.png";
 export function App() {
   const [userPosition, setUserPosition] = useState();
   const [userPositionInfo, setUserPositionInfo] = useState();
-  const [placeList, setPlaceList] = useState(CITIES);
+  const [placeList, setPlaceList] = useState([]);
   const [clearInput, setClearInput] = useState(false);
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState([]);
@@ -26,6 +26,33 @@ export function App() {
   const [selectedCity, setSelectedCity] = useState(userPositionInfo);
 
   const suggestionsRef = useRef(null);
+
+  // Retrieve placeList from Local Storage
+  useEffect(() => {
+    const storedPlaceList = localStorage.getItem("placeList");
+    if (storedPlaceList) {
+      setPlaceList(JSON.parse(storedPlaceList));
+    }
+  }, []);
+
+  // Save placeList in Local Storage when it changes
+  useEffect(() => {
+    localStorage.setItem("placeList", JSON.stringify(placeList));
+  }, [placeList]);
+
+  const checkLocalStorage = () => {
+    const storedPlaceList = localStorage.getItem("placeList");
+
+    if (storedPlaceList) {
+      const parsedPlaceList = JSON.parse(storedPlaceList);
+      console.log("Data found in localStorage:", parsedPlaceList);
+    } else {
+      console.log("No data found in localStorage");
+    }
+  };
+
+  // Call the function to check localStorage
+  checkLocalStorage();
 
   // Hide Suggestions when clicked outside
   function handleClickOutside(event) {
