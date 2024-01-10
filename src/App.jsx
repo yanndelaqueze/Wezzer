@@ -11,8 +11,6 @@ import { Logo } from "./components/Logo/Logo";
 import { GeocoderAPI } from "./api/geocoder";
 import { ArrowClockwise } from "react-bootstrap-icons";
 
-import CITIES from "./business/cities";
-
 import logo from "./assets/images/logo.png";
 
 export function App() {
