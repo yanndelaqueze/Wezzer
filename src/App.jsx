@@ -139,7 +139,7 @@ export function App() {
         <div className={s.header}>
           <div className="row">
             <div className="col-4">
-              <Logo title="Wezzer" subtitle="" image={logo} />
+              <Logo title="Wezzer" subtitle="Sunny or not ?" image={logo} />
             </div>
             <div className="col-md-12 col-lg-4">
               <SearchBar onInput={getSuggestions} clearInput={clearInput} />
