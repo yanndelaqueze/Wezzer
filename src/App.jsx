@@ -22,6 +22,7 @@ export function App() {
   const [suggestions, setSuggestions] = useState([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [selectedCity, setSelectedCity] = useState(userPositionInfo);
+  const [selectedTimeStamp, setSelectedTimeStamp] = useState();
 
   const suggestionsRef = useRef(null);
 
@@ -38,19 +39,17 @@ export function App() {
     localStorage.setItem("placeList", JSON.stringify(placeList));
   }, [placeList]);
 
-  const checkLocalStorage = () => {
-    const storedPlaceList = localStorage.getItem("placeList");
+  // const checkLocalStorage = () => {
+  //   const storedPlaceList = localStorage.getItem("placeList");
 
-    if (storedPlaceList) {
-      const parsedPlaceList = JSON.parse(storedPlaceList);
-      console.log("Data found in localStorage:", parsedPlaceList);
-    } else {
-      console.log("No data found in localStorage");
-    }
-  };
-
-  // Call the function to check localStorage
-  checkLocalStorage();
+  //   if (storedPlaceList) {
+  //     const parsedPlaceList = JSON.parse(storedPlaceList);
+  //     console.log("Data found in localStorage:", parsedPlaceList);
+  //   } else {
+  //     console.log("No data found in localStorage");
+  //   }
+  // };
+  // checkLocalStorage();
 
   // Hide Suggestions when clicked outside
   function handleClickOutside(event) {
@@ -158,6 +157,8 @@ export function App() {
     }
   }, [userPositionInfo, placeList]);
 
+  console.log("timeStamp:", selectedTimeStamp);
+
   return (
     <>
       <div className={s.main_container}>
@@ -191,7 +192,13 @@ export function App() {
           />
         </div>
         <div className={s.forecast_list}>
-          <ForecastList selectedCity={selectedCity} />
+          <ForecastList
+            selectedCity={selectedCity}
+            selectedTimeStamp={selectedTimeStamp}
+            onClickTime={(time) => {
+              setSelectedTimeStamp(time);
+            }}
+          />
         </div>
         <div className={s.map}>
           {!userPosition && (

@@ -13,3 +13,21 @@
   margin-bottom: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
+
+.container_selected {
+  background-color: white;
+  border: solid #e1b34b;
+  border-width: 6px;
+  color: #1980d8;
+  cursor: pointer;
+  width: 180px;
+  height: 150px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}

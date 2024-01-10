@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { ForecastListItem } from "../ForecastListItem/ForecastListItem";
 import { OpenWeatherAPI } from "../../api/openweather";
 
-export function ForecastList({ selectedCity }) {
+export function ForecastList({ selectedCity, onClickTime, selectedTimeStamp }) {
   const [forecastList, setforecastList] = useState();
 
   async function getWeatherForecast(city) {
@@ -31,7 +31,14 @@ export function ForecastList({ selectedCity }) {
           forecastList.map((fcst, i) => {
             return (
               <span className={s.forecast_item}>
-                {fcst && <ForecastListItem key={fcst + i} fcst={fcst} />}
+                {fcst && (
+                  <ForecastListItem
+                    key={fcst + i}
+                    fcst={fcst}
+                    onClickTime={onClickTime}
+                    selectedTimeStamp={selectedTimeStamp}
+                  />
+                )}
               </span>
             );
           })}
