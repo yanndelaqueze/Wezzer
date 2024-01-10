@@ -6,11 +6,14 @@ import { CityList } from "./components/CityList/CityList";
 import { SearchBar } from "./components/SearchBar/SearchBar";
 import { SuggestionList } from "./components/SuggestionList/SuggestionList";
 import { ForecastList } from "./components/ForecastList/ForecastList";
+import { Logo } from "./components/Logo/Logo";
 
 import { GeocoderAPI } from "./api/geocoder";
 import { ArrowClockwise } from "react-bootstrap-icons";
 
 import CITIES from "./business/cities";
+
+import logo from "./assets/images/logo.png";
 
 export function App() {
   const [userPosition, setUserPosition] = useState();
@@ -135,7 +138,9 @@ export function App() {
       <div className={s.main_container}>
         <div className={s.header}>
           <div className="row">
-            <div className="col-4">LOGO</div>
+            <div className="col-4">
+              <Logo title="Wezzer" subtitle="" image={logo} />
+            </div>
             <div className="col-md-12 col-lg-4">
               <SearchBar onInput={getSuggestions} clearInput={clearInput} />
               <div ref={suggestionsRef}>
