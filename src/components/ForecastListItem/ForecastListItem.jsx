@@ -1,4 +1,5 @@
 import s from "./style.module.css";
+import { OPENWEATHER_ICONS_URL } from "../../config";
 
 export function ForecastListItem({ fcst }) {
   // FORMATTING DATE
@@ -10,7 +11,10 @@ export function ForecastListItem({ fcst }) {
     hour: "2-digit",
     minute: "2-digit",
   });
-  const finalDateFormat = `${formattedDate} / ${formattedTime}`;
+  const finalDateFormat = `${formattedDate} - ${formattedTime}`;
+
+  // GET LOGO
+  const logo = `${OPENWEATHER_ICONS_URL}${fcst.weather[0].icon}.png`;
 
   return (
     <>
@@ -19,6 +23,7 @@ export function ForecastListItem({ fcst }) {
         <div>{fcst.weather[0].main}</div>
         <div>({fcst.weather[0].description})</div>
         <div>({Math.round(fcst.main.temp)}°C)</div>
+        <img src={logo} alt="" />
       </div>
     </>
   );
