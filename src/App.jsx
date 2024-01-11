@@ -122,8 +122,7 @@ export function App() {
     };
     setPlaceList((prevPlaceList) => [cityToAdd, ...prevPlaceList]);
     setShowSuggestions(false);
-    setInput("");
-    setClearInput(true);
+    setTimeout(() => setClearInput(true), 100);
   }
 
   // CHANGE SELECTED CITY BY CLICKING ON MAP
@@ -143,6 +142,7 @@ export function App() {
     }
   }, [userPositionInfo, placeList]);
 
+  console.log("clear input", clearInput);
   return (
     <>
       <div className={s.main_container}>

@@ -33,7 +33,6 @@ export function CityListItem({
 
   // BREAKDOWN CITY INFO
   const cityInfoArr = cityInfo && cityInfo.place_name.split(",");
-  console.log(cityInfoArr);
 
   return (
     <div>

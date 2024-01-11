@@ -37,6 +37,7 @@ export function SearchBar({ onInput, onSubmit, clearInput }) {
         onChange={getInput}
         type="text"
         onKeyUp={submit}
+        value={inputValue}
       />
     </>
   );
