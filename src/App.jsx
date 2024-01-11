@@ -157,7 +157,6 @@ export function App() {
     }
   }, [userPositionInfo, placeList]);
 
-  console.log("clear input", clearInput);
   return (
     <>
       <div className={s.main_container}>

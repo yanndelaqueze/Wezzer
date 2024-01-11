@@ -5,7 +5,7 @@ import { OpenWeatherAPI } from "../../api/openweather";
 import { GeocoderAPI } from "../../api/geocoder";
 import { OPENWEATHER_ICONS_URL } from "../../config";
 import pin from "../../assets/images/pin_blue.png";
-import { Date } from "../../components/Date/Date";
+import { DateMap } from "../DateMap/DateMap";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
@@ -245,7 +245,7 @@ export function Map({
     <div>
       {userPosition && <div ref={mapContainer} className="map_container"></div>}
       <div className="date">
-        <Date selectedTimeStamp={selectedTimeStamp} />
+        <DateMap selectedTimeStamp={selectedTimeStamp} />
       </div>
     </div>
   );
