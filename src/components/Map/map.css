@@ -3,6 +3,13 @@
   border-radius: 20px;
 }
 
+.date {
+  color: black;
+  position: absolute;
+  top: 680px;
+  left: 50px;
+}
+
 .mapboxgl-popup-content {
   padding-bottom: 5px;
 }

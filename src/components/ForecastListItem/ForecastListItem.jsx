@@ -4,7 +4,7 @@ import { OPENWEATHER_ICONS_URL } from "../../config";
 export function ForecastListItem({ fcst, onClickTime, selectedTimeStamp }) {
   // FORMATTING DATE
   const date = new Date(fcst.dt * 1000);
-  const options = { month: "short", day: "numeric" };
+  const options = { weekday: "long", month: "short", day: "numeric" };
   date.setHours(date.getHours() + 1);
   const formattedDate = new Intl.DateTimeFormat("en-US", options).format(date);
   const formattedTime = date.toLocaleTimeString("en-US", {

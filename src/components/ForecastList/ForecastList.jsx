@@ -9,6 +9,7 @@ export function ForecastList({ selectedCity, onClickTime, selectedTimeStamp }) {
   async function getWeatherForecast(city) {
     const res = await OpenWeatherAPI.getWeather(city.lat, city.lng);
     setforecastList(res.data.list);
+    return res.data.list;
   }
 
   useEffect(() => {

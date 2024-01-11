@@ -9,6 +9,7 @@ import { ForecastList } from "./components/ForecastList/ForecastList";
 import { Logo } from "./components/Logo/Logo";
 
 import { GeocoderAPI } from "./api/geocoder";
+import { OpenWeatherAPI } from "./api/openweather";
 import { ArrowClockwise } from "react-bootstrap-icons";
 
 import logo from "./assets/images/logo.png";
@@ -87,6 +88,20 @@ export function App() {
       lng: userPosition.lng,
     });
   }
+
+  // GET FIRST TIMESTAMP
+  async function getFirstTimeStamp(lat, lng) {
+    const res = await OpenWeatherAPI.getWeather(lat, lng);
+    return res.data.list[0].dt;
+  }
+  useEffect(() => {
+    if (userPosition) {
+      getFirstTimeStamp(userPosition.lat, userPosition.lng).then((time) => {
+        setSelectedTimeStamp(time);
+      });
+      // getFirstTimeStamp(userPosition.lat, userPosition.lng);
+    }
+  }, [userPosition]);
 
   // DELETE A CITY
   function deleteCity(cityNameToRemove) {

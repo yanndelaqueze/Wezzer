@@ -243,13 +243,10 @@ export function Map({
 
   return (
     <div>
-      {userPosition && (
-        <div ref={mapContainer} className="map_container">
-          <div className="date">
-            <Date selectedTimeStamp={selectedTimeStamp} />
-          </div>
-        </div>
-      )}
+      {userPosition && <div ref={mapContainer} className="map_container"></div>}
+      <div className="date">
+        <Date selectedTimeStamp={selectedTimeStamp} />
+      </div>
     </div>
   );
 }
