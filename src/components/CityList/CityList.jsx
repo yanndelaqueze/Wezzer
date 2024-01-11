@@ -46,6 +46,7 @@ export function CityList({
               city={userPositionInfo}
               selectedCity={selectedCity}
               onClickCity={onClickCity}
+              user_position={"yes"}
             />
           )}
         </span>
@@ -63,6 +64,7 @@ export function CityList({
                   selectedCity={selectedCity}
                   onClickTrash={onClickTrash}
                   onClickCity={onClickCity}
+                  user_position={"no"}
                 />
               )}
             </span>

@@ -39,18 +39,6 @@ export function App() {
     localStorage.setItem("placeList", JSON.stringify(placeList));
   }, [placeList]);
 
-  // const checkLocalStorage = () => {
-  //   const storedPlaceList = localStorage.getItem("placeList");
-
-  //   if (storedPlaceList) {
-  //     const parsedPlaceList = JSON.parse(storedPlaceList);
-  //     console.log("Data found in localStorage:", parsedPlaceList);
-  //   } else {
-  //     console.log("No data found in localStorage");
-  //   }
-  // };
-  // checkLocalStorage();
-
   // Hide Suggestions when clicked outside
   function handleClickOutside(event) {
     if (
@@ -206,6 +194,7 @@ export function App() {
           {userPosition && (
             <Map
               userPosition={userPosition}
+              userPositionInfo={userPositionInfo}
               placeList={placeList}
               pinCity={addCity}
               selectedCity={selectedCity}

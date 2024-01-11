@@ -6,6 +6,7 @@ export function CityListItem({
   onClickTrash,
   selectedCity,
   onClickCity,
+  user_position,
 }) {
   const handleTrashClick = (e, cityName) => {
     e.stopPropagation(); // Prevent event propagation to parent div
@@ -17,13 +18,17 @@ export function CityListItem({
       {city === selectedCity && (
         <div className={s.container_selected} onClick={() => onClickCity(city)}>
           <div>{city.name}</div>
-          <Trash onClick={(e) => handleTrashClick(e, city.name)} />
+          {user_position === "no" && (
+            <Trash onClick={(e) => handleTrashClick(e, city.name)} />
+          )}
         </div>
       )}
       {city !== selectedCity && (
         <div className={s.container} onClick={() => onClickCity(city)}>
           <div>{city.name}</div>
-          <Trash onClick={(e) => handleTrashClick(e, city.name)} />
+          {user_position === "no" && (
+            <Trash onClick={(e) => handleTrashClick(e, city.name)} />
+          )}
         </div>
       )}
     </div>

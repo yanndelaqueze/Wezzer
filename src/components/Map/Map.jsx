@@ -10,6 +10,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
 export function Map({
   userPosition,
+  userPositionInfo,
   placeList,
   pinCity,
   selectedCity,
@@ -37,19 +38,18 @@ export function Map({
     return res.data.features[0];
   }
 
+  // FUNCTION - FIT MARKERS IN MAP *****
   async function fitMarkersToBounds() {
     const bounds = new mapboxgl.LngLatBounds();
-
     // Extend the bounds to include all marker coordinates
     for (const city of placeList) {
       bounds.extend([city.lng, city.lat]);
     }
-
     // Fit the map to the calculated bounds
     if (!bounds.isEmpty()) {
       map.current.fitBounds(bounds, {
-        padding: 50, // Adjust padding as needed
-        maxZoom: 15, // Optionally set the maximum zoom level
+        padding: 50,
+        maxZoom: 15,
       });
     }
   }
@@ -183,7 +183,9 @@ export function Map({
     markers.current = {};
 
     // (re)Create all  markers
-    for (const city of placeList) {
+    const placeList_extended = [...placeList, userPositionInfo];
+
+    for (const city of placeList_extended) {
       if (!markers.current[city.name]) {
         try {
           // Get weather information for the city
@@ -221,31 +223,12 @@ export function Map({
             .addTo(map.current);
           markers.current[city.name] = newMarker;
 
-          // Create a Popup to display city information with weather
-          // const newPopup = new mapboxgl.Popup({
-          //   offset: 25,
-          //   className: "popup",
-          // }).setHTML(`
-          // <div>
-          //   <p>${city.name}</p>
-          //   <p>${weather.list[0].weather[0].main}</p>
-          // </div>
-          // `);
-
-          // Attach the popup to the marker
-          // newMarker.setPopup(newPopup);
-
           //**  Event listener for marker click to open popup and select City **//
           newMarker.getElement().addEventListener("click", (e) => {
-            e.stopPropagation(); // Prevent the click event from propagating to the map
-            // Close the currently opened popup (if any)
+            e.stopPropagation();
             if (currentPopup.current) {
               currentPopup.current.remove();
             }
-            // Open the popup for the clicked marker
-            // newPopup.addTo(map.current);
-            // currentPopup.current = newPopup;
-
             onClickMarker(city);
           });
         } catch (error) {
