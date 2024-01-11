@@ -11,7 +11,6 @@ export function ForecastListItem({ fcst, onClickTime, selectedTimeStamp }) {
     hour: "2-digit",
     minute: "2-digit",
   });
-  const finalDateFormat = `${formattedDate} - ${formattedTime}`;
 
   // GET LOGO
   const logo = `${OPENWEATHER_ICONS_URL}${fcst.weather[0].icon}.png`;
@@ -23,20 +22,22 @@ export function ForecastListItem({ fcst, onClickTime, selectedTimeStamp }) {
           className={s.container_selected}
           onClick={() => onClickTime(fcst.dt)}
         >
-          <div>{finalDateFormat}</div>
-          <div>{fcst.weather[0].main}</div>
-          <div>({fcst.weather[0].description})</div>
-          <div>({Math.round(fcst.main.temp)}°C)</div>
-          <img src={logo} alt="" />
+          <div>{formattedDate}</div>
+          <div>{fcst.weather[0].description}</div>
+          <div></div>
+          <img className={s.logo} src={logo} alt="" />
+          <div>{Math.round(fcst.main.temp)}°C</div>
+          <div className={s.time}>{formattedTime}</div>
         </div>
       )}
       {fcst.dt !== selectedTimeStamp && (
         <div className={s.container} onClick={() => onClickTime(fcst.dt)}>
-          <div>{finalDateFormat}</div>
-          <div>{fcst.weather[0].main}</div>
-          <div>({fcst.weather[0].description})</div>
-          <div>({Math.round(fcst.main.temp)}°C)</div>
-          <img src={logo} alt="" />
+          <div>{formattedDate}</div>
+          <div>{fcst.weather[0].description}</div>
+          <div></div>
+          <img className={s.logo} src={logo} alt="" />
+          <div>{Math.round(fcst.main.temp)}°C</div>
+          <div className={s.time}>{formattedTime}</div>
         </div>
       )}
     </>
