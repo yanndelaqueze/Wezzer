@@ -6,7 +6,6 @@ import { GeocoderAPI } from "../../api/geocoder";
 import { OPENWEATHER_ICONS_URL } from "../../config";
 import pin from "../../assets/images/pin_blue.png";
 import { DateMap } from "../DateMap/DateMap";
-import { TypeSelector } from "../TypeSelector/TypeSelector";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
@@ -21,7 +20,6 @@ export function Map({
 }) {
   const mapContainer = useRef(null);
   const map = useRef(null);
-  const markers = useRef({});
   const marker = useRef(null);
   const popup = useRef(null);
   const currentPopup = useRef(null);
@@ -29,7 +27,8 @@ export function Map({
   const [lng, setLng] = useState(userPosition.lng);
   const [lat, setLat] = useState(userPosition.lat);
   const [zoom, setZoom] = useState(9);
-  const [selectedType, setSelectedType] = useState("weather");
+
+  const markers = useRef([]);
 
   // FUNCTION - GET WEATHER *****
   async function getWeatherForecast(latitude, longitude) {
@@ -163,8 +162,9 @@ export function Map({
     });
   }, [selectedTimeStamp]);
 
-  // ***** Update markers when selectedCity or placeList change ***** //
   useEffect(() => {
+    console.log(placeList);
+    // Update markers when selectedCity or placeList change
     if (map.current && selectedCity) {
       const isPlaceListChange = placeList.some(
         (city) => city.name === selectedCity.name
@@ -179,15 +179,13 @@ export function Map({
         });
       }
     }
-  }, [placeList, selectedCity, selectedTimeStamp, selectedType]);
+  }, [placeList, selectedCity, selectedTimeStamp]);
 
   // ***** CREATE / UPDATE MARKERS FROM PLACELIST ***** //
   async function updateMarkers() {
     // Remove all existing markers
-    for (const markerName in markers.current) {
-      markers.current[markerName].remove();
-    }
-    markers.current = {};
+    markers.current.forEach((marker) => marker.remove());
+    markers.current = [];
 
     // (re)Create all  markers
     const placeList_extended = [...placeList, userPositionInfo];
@@ -216,8 +214,7 @@ export function Map({
 
           // Create a DOM element for the custom marker with weather icon
           const cityMarker = document.createElement("div");
-
-          cityMarker.className = "city_marker_weather";
+          cityMarker.className = "city_marker";
           cityMarker.style.backgroundImage = `url(${icon})`;
 
           // Add City Name to cityMarker
@@ -229,7 +226,7 @@ export function Map({
           const newMarker = new mapboxgl.Marker(cityMarker)
             .setLngLat([city.lng, city.lat])
             .addTo(map.current);
-          markers.current[city.name] = newMarker;
+          markers.current.push(newMarker);
 
           //**  Event listener for marker click to open popup and select City **//
           newMarker.getElement().addEventListener("click", (e) => {
@@ -246,22 +243,11 @@ export function Map({
     }
   }
 
-  console.log("type:", selectedType);
-
   return (
     <div>
       {userPosition && <div ref={mapContainer} className="map_container"></div>}
       <div className="date">
         <DateMap selectedTimeStamp={selectedTimeStamp} />
-        <TypeSelector
-          selectedType={selectedType}
-          onClickTemperature={() => {
-            setSelectedType("temperature");
-          }}
-          onClickWeather={() => {
-            setSelectedType("weather");
-          }}
-        />
       </div>
     </div>
   );
