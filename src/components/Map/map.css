@@ -3,10 +3,38 @@
   border-radius: 20px;
 }
 
+.mapboxgl-popup-content {
+  padding-bottom: 5px;
+}
+
 .popup {
   color: #333;
-  width: 100px;
+  width: 160px;
   height: 50px;
+  text-align: center;
+}
+
+.popup_content {
+  display: flex;
+}
+
+.bi-pin {
+  height: 30px;
+  width: 30px;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  color: #e1b34b;
+  cursor: pointer;
+}
+
+.city {
+  margin-bottom: 0;
+  font-size: 15px;
+}
+
+.region_country {
+  margin-bottom: 0;
 }
 
 .pin_marker {
