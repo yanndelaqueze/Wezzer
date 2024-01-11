@@ -28,11 +28,13 @@ export function Map({
   const [lat, setLat] = useState(userPosition.lat);
   const [zoom, setZoom] = useState(9);
 
+  // FUNCTION - GET WEATHER *****
   async function getWeatherForecast(latitude, longitude) {
     const res = await OpenWeatherAPI.getWeather(latitude, longitude);
     return res.data || "N/A";
   }
 
+  // FUNCTION - GET PLACE INFO *****
   async function getCityInfo(latitude, longitude) {
     const res = await GeocoderAPI.geocodeWithCoords(latitude, longitude);
     return res.data.features[0];

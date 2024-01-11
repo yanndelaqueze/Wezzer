@@ -1,9 +1,10 @@
 .container {
+  width: 150px;
+  height: 150px;
+  padding: 10px;
   background-color: white;
   color: #1980d8;
   cursor: pointer;
-  width: 120px;
-  height: 120px;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -15,13 +16,14 @@
 }
 
 .container_selected {
+  width: 150px;
+  height: 150px;
+  padding: 10px;
   background-color: white;
   border: solid #e1b34b;
   border-width: 6px;
   color: #1980d8;
   cursor: pointer;
-  width: 120px;
-  height: 120px;
   border-radius: 50%;
   display: flex;
   flex-direction: column;
@@ -30,4 +32,17 @@
   text-align: center;
   margin-bottom: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.city_name {
+  font-size: 20px;
+}
+
+.region_country {
+  font-size: 10px;
+}
+
+.trash {
+  position: absolute;
+  bottom: 20px;
 }

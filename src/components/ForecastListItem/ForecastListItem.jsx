@@ -16,9 +16,6 @@ export function ForecastListItem({ fcst, onClickTime, selectedTimeStamp }) {
   // GET LOGO
   const logo = `${OPENWEATHER_ICONS_URL}${fcst.weather[0].icon}.png`;
 
-  // CHECK IF SELECTED TIMESTAMP
-  // TO DO //
-
   return (
     <>
       {fcst.dt === selectedTimeStamp && (
