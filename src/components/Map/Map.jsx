@@ -4,6 +4,7 @@ import { useState, useRef, useEffect } from "react";
 import { OpenWeatherAPI } from "../../api/openweather";
 import { GeocoderAPI } from "../../api/geocoder";
 import { OPENWEATHER_ICONS_URL } from "../../config";
+import pin from "../../assets/images/pin_blue.png";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
@@ -53,8 +54,8 @@ export function Map({
     }
   }
 
+  // ***** INITIALIZE MAP INITIALIZED ***** //
   useEffect(() => {
-    // ***** MAP INITIALIZED (once) ***** //
     if (!map.current) {
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
@@ -72,8 +73,8 @@ export function Map({
     };
   }, []);
 
+  // ***** CREATE A MARKER WITH INFO ON CLICK ***** //
   useEffect(() => {
-    // ***** CREATE A MARKER WITH INFO ON CLICK ***** //
     map.current.on("click", async (e) => {
       const { lng, lat } = e.lngLat;
 
@@ -99,19 +100,18 @@ export function Map({
 
       // Create a DOM element for the custom marker with weather icon
       const cityMarker = document.createElement("div");
-      cityMarker.className = "city_marker";
-      cityMarker.style.backgroundImage = `url(${icon})`;
-
-      // Add City Name to cityMarker
-      const text = document.createElement("div");
-      text.className = "city_marker_name";
-      text.textContent = `${city?.text}`;
-      cityMarker.appendChild(text);
+      cityMarker.className = "pin_marker";
+      const img = document.createElement("img");
+      img.src = pin;
+      cityMarker.appendChild(img);
 
       // Create a new marker at the clicked location
       marker.current = new mapboxgl.Marker(cityMarker)
         .setLngLat([lng, lat])
         .addTo(map.current);
+
+      // Break Down place_name (city / region / country)
+      const place_name_arr = city.place_name.split(",");
 
       // Create a Popup to display Latitude and Longitude
       popup.current = new mapboxgl.Popup({
@@ -121,9 +121,8 @@ export function Map({
         .setLngLat([lng, lat])
         .setHTML(
           `
-        <div>
+        <div className="popup_content">
           <p>${city?.place_name}</p>
-          <p>${selectedTimeStamp}</p>
           <div><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pin" viewBox="0 0 16 16" onClick="clickPin()">
           <path d="M4.146.146A.5.5 0 0 1 4.5 0h7a.5.5 0 0 1 .5.5c0 .68-.342 1.174-.646 1.479-.126.125-.25.224-.354.298v4.431l.078.048c.203.127.476.314.751.555C12.36 7.775 13 8.527 13 9.5a.5.5 0 0 1-.5.5h-4v4.5c0 .276-.224 1.5-.5 1.5s-.5-1.224-.5-1.5V10h-4a.5.5 0 0 1-.5-.5c0-.973.64-1.725 1.17-2.189A5.921 5.921 0 0 1 5 6.708V2.277a2.77 2.77 0 0 1-.354-.298C4.342 1.674 4 1.179 4 .5a.5.5 0 0 1 .146-.354zm1.58 1.408-.002-.001.002.001m-.002-.001.002.001A.5.5 0 0 1 6 2v5a.5.5 0 0 1-.276.447h-.002l-.012.007-.054.03a4.922 4.922 0 0 0-.827.58c-.318.278-.585.596-.725.936h7.792c-.14-.34-.407-.658-.725-.936a4.915 4.915 0 0 0-.881-.61l-.012-.006h-.002A.5.5 0 0 1 10 7V2a.5.5 0 0 1 .295-.458 1.775 1.775 0 0 0 .351-.271c.08-.08.155-.17.214-.271H5.14c.06.1.133.191.214.271a1.78 1.78 0 0 0 .37.282"/>
         </svg></div>

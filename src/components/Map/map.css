@@ -9,6 +9,12 @@
   height: 50px;
 }
 
+.pin_marker {
+  img {
+    height: 30px;
+  }
+}
+
 .city_marker {
   cursor: pointer;
   width: 50px;
