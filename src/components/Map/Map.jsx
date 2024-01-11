@@ -6,6 +6,7 @@ import { GeocoderAPI } from "../../api/geocoder";
 import { OPENWEATHER_ICONS_URL } from "../../config";
 import pin from "../../assets/images/pin_blue.png";
 import { DateMap } from "../DateMap/DateMap";
+import { TypeSelector } from "../TypeSelector/TypeSelector";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
@@ -28,6 +29,7 @@ export function Map({
   const [lng, setLng] = useState(userPosition.lng);
   const [lat, setLat] = useState(userPosition.lat);
   const [zoom, setZoom] = useState(9);
+  const [selectedType, setSelectedType] = useState("weather");
 
   // FUNCTION - GET WEATHER *****
   async function getWeatherForecast(latitude, longitude) {
@@ -43,9 +45,11 @@ export function Map({
 
   // FUNCTION - FIT MARKERS IN MAP *****
   async function fitMarkersToBounds() {
+    const placeList_extended = [...placeList, userPositionInfo];
+
     const bounds = new mapboxgl.LngLatBounds();
     // Extend the bounds to include all marker coordinates
-    for (const city of placeList) {
+    for (const city of placeList_extended) {
       bounds.extend([city.lng, city.lat]);
     }
     // Fit the map to the calculated bounds
@@ -159,8 +163,8 @@ export function Map({
     });
   }, [selectedTimeStamp]);
 
+  // ***** Update markers when selectedCity or placeList change ***** //
   useEffect(() => {
-    // Update markers when selectedCity or placeList change
     if (map.current && selectedCity) {
       const isPlaceListChange = placeList.some(
         (city) => city.name === selectedCity.name
@@ -175,7 +179,7 @@ export function Map({
         });
       }
     }
-  }, [placeList, selectedCity, selectedTimeStamp]);
+  }, [placeList, selectedCity, selectedTimeStamp, selectedType]);
 
   // ***** CREATE / UPDATE MARKERS FROM PLACELIST ***** //
   async function updateMarkers() {
@@ -212,7 +216,8 @@ export function Map({
 
           // Create a DOM element for the custom marker with weather icon
           const cityMarker = document.createElement("div");
-          cityMarker.className = "city_marker";
+
+          cityMarker.className = "city_marker_weather";
           cityMarker.style.backgroundImage = `url(${icon})`;
 
           // Add City Name to cityMarker
@@ -241,11 +246,22 @@ export function Map({
     }
   }
 
+  console.log("type:", selectedType);
+
   return (
     <div>
       {userPosition && <div ref={mapContainer} className="map_container"></div>}
       <div className="date">
         <DateMap selectedTimeStamp={selectedTimeStamp} />
+        <TypeSelector
+          selectedType={selectedType}
+          onClickTemperature={() => {
+            setSelectedType("temperature");
+          }}
+          onClickWeather={() => {
+            setSelectedType("weather");
+          }}
+        />
       </div>
     </div>
   );

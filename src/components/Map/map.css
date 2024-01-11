@@ -6,7 +6,7 @@
 .date {
   color: black;
   position: absolute;
-  top: 680px;
+  top: 590px;
   left: 50px;
 }
 
@@ -50,11 +50,16 @@
   }
 }
 
-.city_marker {
+.city_marker_weather {
   cursor: pointer;
   width: 50px;
   height: 40px;
-  /* position: relative; */
+}
+
+.city_marker_temperature {
+  cursor: pointer;
+  width: 50px;
+  height: 40px;
 }
 
 .city_marker_name {
