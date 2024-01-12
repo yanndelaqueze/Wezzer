@@ -126,8 +126,9 @@ export function Map({
 
       // Create a Popup to display Latitude and Longitude
       let html = "";
-      if (city) {
-        html = `
+
+      html = city
+        ? `
       <div class="popup_content">
         <div>
           <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="bi-pin" viewBox="0 0 16 16" onClick="clickPin()">
@@ -139,16 +140,14 @@ export function Map({
           <p class="region_country">${place_name_arr[1]}, ${place_name_arr[2]}</p>
         </div>
       </div>
-      `;
-      } else {
-        html = `
+      `
+        : `
         <div class="popup_content">
           <div class="info">
             <p class="city">Unknown location !</p>
           </div>
         </div>
         `;
-      }
 
       popup.current = new mapboxgl.Popup({
         offset: 25,
@@ -178,24 +177,6 @@ export function Map({
     });
   }, [selectedTimeStamp]);
 
-  useEffect(() => {
-    // Update markers when selectedCity or placeList change
-    if (map.current && selectedCity) {
-      const isPlaceListChange = placeList.some(
-        (city) => city.name === selectedCity.name
-      );
-      if (!isPlaceListChange) {
-        updateMarkers().then(() => {
-          centerMapOnSelectedCity();
-        });
-      } else {
-        updateMarkers().then(() => {
-          centerMapOnSelectedCity();
-        });
-      }
-    }
-  }, [placeList, selectedCity, selectedTimeStamp, selectedType]);
-
   // ***** CREATE / UPDATE MARKERS FROM PLACELIST ***** //
   async function updateMarkers() {
     // Remove all existing markers
@@ -214,38 +195,32 @@ export function Map({
           const weather = await getWeatherForecast(city.lat, city.lng);
 
           // Get the right weather icon
-          let weatherIcon = "";
-          if (selectedTimeStamp) {
-            weatherIcon = `${OPENWEATHER_ICONS_URL}${
-              weather.list.find((fcst) => fcst.dt === selectedTimeStamp)
-                .weather[0].icon
-            }.png`;
-          } else {
-            weatherIcon = `${OPENWEATHER_ICONS_URL}${weather.list[0].weather[0].icon}.png`;
-          }
+          const weatherIcon = selectedTimeStamp
+            ? `${OPENWEATHER_ICONS_URL}${
+                weather.list.find((fcst) => fcst.dt === selectedTimeStamp)
+                  .weather[0].icon
+              }.png`
+            : `${OPENWEATHER_ICONS_URL}${weather.list[0].weather[0].icon}.png`;
 
           // Get the right temperature
-          let temperature = "";
-          if (selectedTimeStamp) {
-            temperature = `${Math.round(
-              weather.list.find((fcst) => fcst.dt === selectedTimeStamp).main
-                .temp
-            )}°C`;
-          } else {
-            temperature = `${Math.round(weather.list[0].main.temp)}°C`;
-          }
+
+          const temperature = selectedTimeStamp
+            ? `${Math.round(
+                weather.list.find((fcst) => fcst.dt === selectedTimeStamp).main
+                  .temp
+              )}°C`
+            : `${Math.round(weather.list[0].main.temp)}°C`;
 
           // Check if Selected
-          let selectedClass = "";
-          selectedCity && selectedCity.name === city.name
-            ? (selectedClass = "city_marker_label_selected")
-            : (selectedClass = "city_marker_label");
+          const selectedClass =
+            selectedCity && selectedCity.name === city.name
+              ? "city_marker_label_selected"
+              : "city_marker_label";
 
           // Create a DOM element for the custom marker
           const cityMarker = document.createElement("div");
 
           // Customize marker with weather Icon or Temperature, depending on SelectedType
-
           if (selectedType === "weather") {
             cityMarker.className = "city_marker_weather";
             cityMarker.style.backgroundImage = `url(${weatherIcon})`;
@@ -260,12 +235,13 @@ export function Map({
           text.textContent = `${city.name}`;
           cityMarker.appendChild(text);
 
+          // Create the marker and add it to map
           const newMarker = new mapboxgl.Marker(cityMarker)
             .setLngLat([city.lng, city.lat])
             .addTo(map.current);
           markers.current.push(newMarker);
 
-          //**  Event listener for marker click to open popup and select City **//
+          // Add  Event listener for marker click to open popup and select City //
           newMarker.getElement().addEventListener("click", (e) => {
             e.stopPropagation();
             if (currentPopup.current) {
@@ -279,6 +255,24 @@ export function Map({
       }
     }
   }
+
+  useEffect(() => {
+    // Update markers when selectedCity or placeList change
+    if (map.current && selectedCity) {
+      const isPlaceListChange = placeList.some(
+        (city) => city.name === selectedCity.name
+      );
+      if (!isPlaceListChange) {
+        updateMarkers().then(() => {
+          centerMapOnSelectedCity();
+        });
+      } else {
+        updateMarkers().then(() => {
+          centerMapOnSelectedCity();
+        });
+      }
+    }
+  }, [placeList, selectedCity, selectedTimeStamp, selectedType]);
 
   return (
     <div className="map">
