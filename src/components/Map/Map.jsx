@@ -45,7 +45,7 @@ export function Map({
     return res.data.features[0];
   }
 
-  // FUNCTION - FIT MARKERS IN MAP *****
+  // FUNCTION - FIT MARKERS IN MAP (NOT USED) *****
   async function fitMarkersToBounds() {
     const placeList_extended = userPositionInfo
       ? [...placeList, userPositionInfo]
@@ -61,6 +61,17 @@ export function Map({
       map.current.fitBounds(bounds, {
         padding: 150,
         maxZoom: 14,
+      });
+    }
+  }
+
+  // FUNCTION - CENTER MAP ON SELECTED CITY
+  function centerMapOnSelectedCity() {
+    if (selectedCity) {
+      map.current.flyTo({
+        center: [selectedCity.lng, selectedCity.lat],
+        zoom: 5,
+        essential: true,
       });
     }
   }
@@ -175,11 +186,11 @@ export function Map({
       );
       if (!isPlaceListChange) {
         updateMarkers().then(() => {
-          fitMarkersToBounds();
+          centerMapOnSelectedCity();
         });
       } else {
         updateMarkers().then(() => {
-          fitMarkersToBounds();
+          centerMapOnSelectedCity();
         });
       }
     }
