@@ -22,7 +22,7 @@ export function ForecastListItem({ fcst, onClickTime, selectedTimeStamp }) {
           className={s.container_selected}
           onClick={() => onClickTime(fcst.dt)}
         >
-          <div>{formattedDate}</div>
+          <div className={s.date}>{formattedDate}</div>
           <div>{fcst.weather[0].description}</div>
           <div></div>
           <img className={s.logo} src={logo} alt="" />
@@ -32,7 +32,7 @@ export function ForecastListItem({ fcst, onClickTime, selectedTimeStamp }) {
       )}
       {fcst.dt !== selectedTimeStamp && (
         <div className={s.container} onClick={() => onClickTime(fcst.dt)}>
-          <div>{formattedDate}</div>
+          <div className={s.date}>{formattedDate}</div>
           <div>{fcst.weather[0].description}</div>
           <div></div>
           <img className={s.logo} src={logo} alt="" />

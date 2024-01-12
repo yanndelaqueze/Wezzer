@@ -45,3 +45,11 @@
   height: 100%;
   border-radius: 0 0 16px 16px;
 }
+
+.date {
+  color: #1980d7;
+  width: 100%;
+  background: #dcdcdd;
+  height: 100%;
+  border-radius: 16px 16px 0 0;
+}
