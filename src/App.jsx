@@ -89,17 +89,17 @@ export function App() {
     });
   }
 
-  // GET FIRST TIMESTAMP
+  // GET FIRST TIMESTAMP FROM WEATHER FORECAST LIST
   async function getFirstTimeStamp(lat, lng) {
     const res = await OpenWeatherAPI.getWeather(lat, lng);
     return res.data.list[0].dt;
   }
+
   useEffect(() => {
     if (userPosition) {
       getFirstTimeStamp(userPosition.lat, userPosition.lng).then((time) => {
         setSelectedTimeStamp(time);
       });
-      // getFirstTimeStamp(userPosition.lat, userPosition.lng);
     }
   }, [userPosition]);
 

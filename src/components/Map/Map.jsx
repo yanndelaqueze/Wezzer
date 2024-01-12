@@ -24,11 +24,6 @@ export function Map({
   const marker = useRef(null);
   const popup = useRef(null);
   const currentPopup = useRef(null);
-
-  const [lng, setLng] = useState(userPosition.lng);
-  const [lat, setLat] = useState(userPosition.lat);
-  const [zoom, setZoom] = useState(9);
-
   const markers = useRef([]);
 
   const [selectedType, setSelectedType] = useState("weather");
@@ -82,8 +77,6 @@ export function Map({
       map.current = new mapboxgl.Map({
         container: mapContainer.current,
         style: "mapbox://styles/mapbox/light-v11",
-        center: [lng, lat],
-        zoom: zoom,
       });
     }
 
