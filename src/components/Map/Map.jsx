@@ -47,7 +47,9 @@ export function Map({
 
   // FUNCTION - FIT MARKERS IN MAP *****
   async function fitMarkersToBounds() {
-    const placeList_extended = [...placeList, userPositionInfo];
+    const placeList_extended = userPositionInfo
+      ? [...placeList, userPositionInfo]
+      : placeList;
 
     const bounds = new mapboxgl.LngLatBounds();
     // Extend the bounds to include all marker coordinates
@@ -86,10 +88,7 @@ export function Map({
   useEffect(() => {
     map.current.on("click", async (e) => {
       const { lng, lat } = e.lngLat;
-
       const city = await getCityInfo(lat, lng);
-
-      console.log(city);
 
       // Remove previous marker & popup if they exist
       if (marker.current) {
@@ -169,7 +168,6 @@ export function Map({
   }, [selectedTimeStamp]);
 
   useEffect(() => {
-    console.log(placeList);
     // Update markers when selectedCity or placeList change
     if (map.current && selectedCity) {
       const isPlaceListChange = placeList.some(
@@ -194,7 +192,9 @@ export function Map({
     markers.current = [];
 
     // (re)Create all  markers
-    const placeList_extended = [...placeList, userPositionInfo];
+    const placeList_extended = userPositionInfo
+      ? [...placeList, userPositionInfo]
+      : placeList;
 
     for (const city of placeList_extended) {
       if (!markers.current[city.name]) {

@@ -115,7 +115,6 @@ export function App() {
   // ADD A CITY
   function addCity(cityToAdd) {
     setPlaceList((prevPlaceList) => [cityToAdd, ...prevPlaceList]);
-    setSelectedCity(cityToAdd);
   }
 
   // AUTOCOMPLETE
@@ -152,8 +151,8 @@ export function App() {
   }, [userPosition]);
 
   useEffect(() => {
-    if (userPositionInfo) {
-      setSelectedCity(userPositionInfo);
+    if (placeList.length > 0) {
+      setSelectedCity(placeList[0]);
     }
   }, [userPositionInfo, placeList]);
 
