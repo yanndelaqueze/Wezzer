@@ -6,6 +6,7 @@ import { GeocoderAPI } from "../../api/geocoder";
 import { OPENWEATHER_ICONS_URL } from "../../config";
 import pin from "../../assets/images/pin_blue.png";
 import { DateMap } from "../DateMap/DateMap";
+import { TypeSelector } from "../TypeSelector/TypeSelector";
 
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_API_KEY_PARAM;
 
@@ -29,6 +30,8 @@ export function Map({
   const [zoom, setZoom] = useState(9);
 
   const markers = useRef([]);
+
+  const [selectedType, setSelectedType] = useState("weather");
 
   // FUNCTION - GET WEATHER *****
   async function getWeatherForecast(latitude, longitude) {
@@ -179,7 +182,7 @@ export function Map({
         });
       }
     }
-  }, [placeList, selectedCity, selectedTimeStamp]);
+  }, [placeList, selectedCity, selectedTimeStamp, selectedType]);
 
   // ***** CREATE / UPDATE MARKERS FROM PLACELIST ***** //
   async function updateMarkers() {
@@ -195,29 +198,49 @@ export function Map({
         try {
           // Get weather information for the city
           const weather = await getWeatherForecast(city.lat, city.lng);
-          // const icon = `${OPENWEATHER_ICONS_URL}${weather.list[0].weather[0].icon}.png`;
-          let icon = "";
+
+          // Get the right weather icon
+          let weatherIcon = "";
           if (selectedTimeStamp) {
-            icon = `${OPENWEATHER_ICONS_URL}${
+            weatherIcon = `${OPENWEATHER_ICONS_URL}${
               weather.list.find((fcst) => fcst.dt === selectedTimeStamp)
                 .weather[0].icon
             }.png`;
           } else {
-            icon = `${OPENWEATHER_ICONS_URL}${weather.list[0].weather[0].icon}.png`;
+            weatherIcon = `${OPENWEATHER_ICONS_URL}${weather.list[0].weather[0].icon}.png`;
+          }
+
+          // Get the right temperature
+          let temperature = "";
+          if (selectedTimeStamp) {
+            temperature = `${Math.round(
+              weather.list.find((fcst) => fcst.dt === selectedTimeStamp).main
+                .temp
+            )}`;
+          } else {
+            temperature = `${Math.round(weather.list[0].main.temp)}`;
           }
 
           // Check if Selected
           let selectedClass = "";
           selectedCity && selectedCity.name === city.name
-            ? (selectedClass = "city_marker_name_selected")
-            : (selectedClass = "city_marker_name");
+            ? (selectedClass = "city_marker_label_selected")
+            : (selectedClass = "city_marker_label");
 
-          // Create a DOM element for the custom marker with weather icon
+          // Create a DOM element for the custom marker
           const cityMarker = document.createElement("div");
-          cityMarker.className = "city_marker";
-          cityMarker.style.backgroundImage = `url(${icon})`;
 
-          // Add City Name to cityMarker
+          // Customize marker with weather Icon or Temperature, depending on SelectedType
+
+          if (selectedType === "weather") {
+            cityMarker.className = "city_marker_weather";
+            cityMarker.style.backgroundImage = `url(${weatherIcon})`;
+          } else if (selectedType === "temperature") {
+            cityMarker.className = "city_marker_temperature";
+            cityMarker.textContent = temperature;
+          }
+
+          // Add City Name Label to cityMarker
           const text = document.createElement("div");
           text.className = selectedClass;
           text.textContent = `${city.name}`;
@@ -248,6 +271,15 @@ export function Map({
       {userPosition && <div ref={mapContainer} className="map_container"></div>}
       <div className="date">
         <DateMap selectedTimeStamp={selectedTimeStamp} />
+        <TypeSelector
+          selectedType={selectedType}
+          onClickWeather={() => {
+            setSelectedType("weather");
+          }}
+          onClickTemperature={() => {
+            setSelectedType("temperature");
+          }}
+        />
       </div>
     </div>
   );
