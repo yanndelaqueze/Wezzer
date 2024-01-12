@@ -230,9 +230,9 @@ export function Map({
             temperature = `${Math.round(
               weather.list.find((fcst) => fcst.dt === selectedTimeStamp).main
                 .temp
-            )}`;
+            )}°C`;
           } else {
-            temperature = `${Math.round(weather.list[0].main.temp)}`;
+            temperature = `${Math.round(weather.list[0].main.temp)}°C`;
           }
 
           // Check if Selected

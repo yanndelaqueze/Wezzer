@@ -177,6 +177,10 @@ export function App() {
             </div>
           </div>
         </div>
+        <div className={s.instructions}>
+          Add new cities to your list by typing in the searchbar or by clicking
+          on the map...
+        </div>
         <div className={s.city_list}>
           <CityList
             selectedCity={selectedCity}

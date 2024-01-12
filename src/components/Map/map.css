@@ -6,7 +6,7 @@
 .date {
   color: black;
   position: absolute;
-  top: 590px;
+  top: 650px;
   left: 50px;
 }
 
@@ -58,14 +58,9 @@
 
 .city_marker_temperature {
   cursor: pointer;
-  color: white;
-  background-color: #1980d7;
-  padding: 4px;
-  border-radius: 50%;
-  border: solid white;
-  height: 30px;
-  width: 30px;
-  text-align: center;
+  color: #1980d7;
+  font-size: 16px;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
 }
 
 .city_marker_label {
@@ -108,16 +103,3 @@
   white-space: nowrap;
   border: solid #e1b34b;
 }
-
-/* .side_bar {
-  background-color: rgb(35 55 75 / 90%);
-  color: #fff;
-  padding: 6px 12px;
-  font-family: monospace;
-  z-index: 1;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 12px;
-  border-radius: 4px;
-} */

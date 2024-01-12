@@ -29,3 +29,13 @@
 .weather_list {
   flex: 2;
 }
+
+.instructions {
+  width: 100%;
+  color: #dcdcdd;
+  border-radius: 5px;
+  padding: 5px;
+  font-style: italic;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
