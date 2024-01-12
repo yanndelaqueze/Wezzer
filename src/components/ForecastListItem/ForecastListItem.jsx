@@ -15,31 +15,20 @@ export function ForecastListItem({ fcst, onClickTime, selectedTimeStamp }) {
   // GET LOGO
   const logo = `${OPENWEATHER_ICONS_URL}${fcst.weather[0].icon}.png`;
 
+  // Get container Class
+  const containerClass =
+    fcst.dt === selectedTimeStamp ? s.container_selected : s.container;
+
   return (
     <>
-      {fcst.dt === selectedTimeStamp && (
-        <div
-          className={s.container_selected}
-          onClick={() => onClickTime(fcst.dt)}
-        >
-          <div className={s.date}>{formattedDate}</div>
-          <div>{fcst.weather[0].description}</div>
-          <div></div>
-          <img className={s.logo} src={logo} alt="" />
-          <div>{Math.round(fcst.main.temp)}°C</div>
-          <div className={s.time}>{formattedTime}</div>
-        </div>
-      )}
-      {fcst.dt !== selectedTimeStamp && (
-        <div className={s.container} onClick={() => onClickTime(fcst.dt)}>
-          <div className={s.date}>{formattedDate}</div>
-          <div>{fcst.weather[0].description}</div>
-          <div></div>
-          <img className={s.logo} src={logo} alt="" />
-          <div>{Math.round(fcst.main.temp)}°C</div>
-          <div className={s.time}>{formattedTime}</div>
-        </div>
-      )}
+      <div className={containerClass} onClick={() => onClickTime(fcst.dt)}>
+        <div className={s.date}>{formattedDate}</div>
+        <div>{fcst.weather[0].description}</div>
+        <div></div>
+        <img className={s.logo} src={logo} alt="" />
+        <div>{Math.round(fcst.main.temp)}°C</div>
+        <div className={s.time}>{formattedTime}</div>
+      </div>
     </>
   );
 }

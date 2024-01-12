@@ -34,25 +34,14 @@ export function CityListItem({
   // BREAKDOWN CITY INFO
   const cityInfoArr = cityInfo && cityInfo.place_name.split(",");
 
+  // get Container Class
+  const containerClass =
+    city === selectedCity ? s.container_selected : s.container;
+
   return (
     <div>
-      {city === selectedCity && cityInfo && (
-        <div className={s.container_selected} onClick={() => onClickCity(city)}>
-          <div className={s.city_name}>{city.name}</div>
-          <div className={s.region_country}>
-            <div>{cityInfoArr[1]}</div>
-            <div>{cityInfoArr[2]}</div>
-          </div>
-          {user_position === "no" && (
-            <Trash
-              className={s.trash}
-              onClick={(e) => handleTrashClick(e, city.name)}
-            />
-          )}
-        </div>
-      )}
-      {city !== selectedCity && cityInfo && (
-        <div className={s.container} onClick={() => onClickCity(city)}>
+      {cityInfo && (
+        <div className={containerClass} onClick={() => onClickCity(city)}>
           <div className={s.city_name}>{city.name}</div>
           <div className={s.region_country}>
             <div>{cityInfoArr[1]}</div>

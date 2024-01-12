@@ -33,19 +33,18 @@ export function CityList({
           <span className={s.your_position}>
             <Geo /> live
           </span>
-          {!userPositionInfo && (
-            <div className={s.position_loading}>
-              <ArrowClockwise />
-              Loading
-            </div>
-          )}
-          {userPositionInfo && (
+          {userPositionInfo ? (
             <CityListItem
               city={userPositionInfo}
               selectedCity={selectedCity}
               onClickCity={onClickCity}
               user_position={"yes"}
             />
+          ) : (
+            <div className={s.position_loading}>
+              <ArrowClockwise />
+              Loading
+            </div>
           )}
         </span>
         {/* DISPLAY OTHER CITIES FROM placeList */}
