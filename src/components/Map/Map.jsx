@@ -281,7 +281,7 @@ export function Map({
   }
 
   return (
-    <div>
+    <div className="map">
       {userPosition && <div ref={mapContainer} className="map_container"></div>}
       <div className="date">
         <DateMap selectedTimeStamp={selectedTimeStamp} />
